@@ -158,6 +158,35 @@
       padding: 2px 7px;
       background: rgba(229, 185, 110, 0.07);
     }
+    .masthead-spec-btn {
+      pointer-events: auto;
+      appearance: none;
+      background: rgba(8, 9, 13, 0.65);
+      border: 1px solid var(--hairline-strong);
+      color: var(--champagne);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 2px 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+    }
+    .masthead-spec-btn:hover,
+    .masthead-spec-btn.active {
+      border-color: var(--gold-warm);
+      color: var(--ivory);
+      background: rgba(229, 185, 110, 0.12);
+    }
+    .masthead-spec-btn .spec-idx {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.1em;
+      color: var(--gold-warm);
+    }
 
     /* 2. Top-Right Performance Mode (연주 ON/OFF) & 점·선·면 Repertoire Console */
     .perf-console {
@@ -587,343 +616,353 @@
       text-transform: uppercase;
     }
 
-    /* Quick AV Beam & Hardware Toggle Strip inside Top-Right Console */
-    .av-quick-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      padding-top: 8px;
-      border-top: 1px solid rgba(236, 226, 208, 0.10);
-    }
-    .av-qbtn {
-      appearance: none;
-      background: rgba(255, 255, 255, 0.035);
-      border: 1px solid rgba(236, 226, 208, 0.20);
-      color: var(--champagne);
-      padding: 6.5px 8px;
-      font-family: var(--font-sans);
-      font-size: 10.8px;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.18s ease;
-      white-space: nowrap;
-    }
-    .av-qbtn.span-full {
-      grid-column: 1 / -1;
-    }
-    .av-qbtn:hover {
-      border-color: var(--gold-warm);
-      background: rgba(229, 185, 110, 0.12);
-      color: #fff;
-    }
-    .av-qbtn.active {
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.16);
-      color: #e0f2fe;
-    }
-    .av-qbtn.active-min {
-      border-color: #34d399;
-      background: rgba(52, 211, 153, 0.17);
-      color: #d1fae5;
-    }
-    .av-qbtn.hw-open {
-      border-color: var(--gold-warm);
-      background: rgba(229, 185, 110, 0.22);
-      color: #fff7e6;
-    }
-    .av-qbtn .qdot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.28);
-    }
-    .av-qbtn.active .qdot {
-      background: #38bdf8;
-      box-shadow: 0 0 8px #38bdf8;
-    }
-    .av-qbtn.active-min .qdot {
-      background: #34d399;
-      box-shadow: 0 0 8px #34d399;
-    }
-    .av-qbtn.hw-open .qdot {
-      background: var(--gold-warm);
-      box-shadow: 0 0 8px var(--gold-warm);
-    }
-    .hw-plan-bar {
-      padding: 8px 18px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      border-bottom: 1px solid rgba(236, 226, 208, 0.11);
-      background: rgba(12, 16, 24, 0.72);
-    }
-    .hw-plan-btn {
-      appearance: none;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(236, 226, 208, 0.16);
-      color: var(--text-secondary);
-      padding: 7px 10px;
-      font-family: var(--font-sans);
-      font-size: 11.2px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all 0.16s ease;
-    }
-    .hw-plan-btn:hover { border-color: var(--gold-warm); color: #fff; }
-    .hw-plan-btn.active-min {
-      border-color: #34d399;
-      background: rgba(16, 185, 129, 0.15);
-      color: #ecfdf5;
-    }
-    .hw-plan-btn.active-full {
-      border-color: #38bdf8;
-      background: rgba(56, 189, 248, 0.15);
-      color: #e0f2fe;
-    }
-    .hw-plan-price {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      opacity: 0.92;
+    /* 5. Architectural Equipment Schedule & Cost Sheet (장비 설계 · 개산 내역서) */
+    body.hw-sheet-open .editorial-note {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(6px);
     }
 
-    /* 5. Toggleable Hardware BOM & Expected Cost Drawer Tab */
     .hw-drawer {
       position: fixed;
       left: 38px;
-      top: 118px;
-      bottom: 82px;
-      width: min(700px, calc(100vw - 445px));
-      min-width: 480px;
+      top: 114px;
+      bottom: 80px;
+      width: min(556px, calc(100vw - 440px));
+      min-width: 440px;
       z-index: 26;
-      background: rgba(7, 9, 14, 0.93);
+      background: rgba(7, 8, 12, 0.92);
       backdrop-filter: blur(26px);
       -webkit-backdrop-filter: blur(26px);
-      border: 1px solid rgba(229, 185, 110, 0.34);
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.72);
+      border: 1px solid var(--hairline-strong);
       display: flex;
       flex-direction: column;
       opacity: 0;
       pointer-events: none;
-      transform: translateX(-18px);
-      transition: opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1), transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+      transform: translateY(8px);
+      transition: opacity 0.24s cubic-bezier(0.22, 1, 0.36, 1), transform 0.24s cubic-bezier(0.22, 1, 0.36, 1);
     }
     .hw-drawer.open {
       opacity: 1;
       pointer-events: auto;
-      transform: translateX(0);
+      transform: translateY(0);
     }
+
     .hw-head {
-      padding: 15px 18px 12px;
-      border-bottom: 1px solid rgba(236, 226, 208, 0.12);
+      padding: 15px 20px 13px;
+      border-bottom: 1px solid var(--hairline);
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 12px;
     }
     .hw-eyebrow {
       font-family: var(--font-mono);
       font-size: 9.5px;
-      letter-spacing: 0.16em;
-      color: var(--gold-warm);
-      margin-bottom: 4px;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 3px;
     }
     .hw-title {
-      font-size: 16.5px;
-      font-weight: 600;
+      font-size: 15.5px;
+      font-weight: 500;
       color: var(--ivory);
       letter-spacing: -0.01em;
     }
-    .hw-sub {
-      font-size: 11.2px;
+    .hw-head-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .hw-beam-toggle {
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--hairline);
       color: var(--text-secondary);
-      margin-top: 3px;
+      height: 28px;
+      padding: 0 10px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.16s ease;
+    }
+    .hw-beam-toggle:hover {
+      border-color: var(--hairline-strong);
+      color: var(--ivory);
+    }
+    .hw-beam-toggle.on {
+      border-color: rgba(229, 185, 110, 0.55);
+      background: rgba(229, 185, 110, 0.11);
+      color: var(--ivory);
+    }
+    .hw-beam-toggle .ind-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(236, 226, 208, 0.24);
+      transition: all 0.16s ease;
+    }
+    .hw-beam-toggle.on .ind-dot {
+      background: var(--gold-warm);
+      box-shadow: 0 0 6px rgba(229, 185, 110, 0.65);
     }
     .hw-close {
       appearance: none;
-      background: rgba(255,255,255,0.04);
+      background: transparent;
       border: 1px solid var(--hairline);
-      color: var(--text-secondary);
-      padding: 5px 10px;
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
       font-family: var(--font-mono);
-      font-size: 10.5px;
+      font-size: 11px;
       cursor: pointer;
-      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.16s ease;
     }
-    .hw-close:hover { border-color: var(--gold-warm); color: #fff; }
+    .hw-close:hover {
+      border-color: var(--hairline-strong);
+      color: var(--ivory);
+    }
 
+    /* Single Unified Plan Segmented Bar */
     .hw-tabs {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-bottom: 1px solid rgba(236, 226, 208, 0.12);
-      background: rgba(0, 0, 0, 0.28);
+      grid-template-columns: 1fr 1fr 0.82fr;
+      border-bottom: 1px solid var(--hairline);
+      background: rgba(255, 255, 255, 0.015);
     }
     .hw-tab-btn {
       appearance: none;
       background: transparent;
       border: none;
-      border-right: 1px solid rgba(236, 226, 208, 0.09);
+      border-right: 1px solid var(--hairline);
       color: var(--text-muted);
-      padding: 9px 10px;
+      padding: 10px 14px;
       font-family: var(--font-sans);
       font-size: 11.5px;
-      font-weight: 600;
+      font-weight: 500;
       cursor: pointer;
-      transition: all 0.18s ease;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 6px;
+      transition: color 0.16s ease, background 0.16s ease;
     }
-    .hw-tab-btn:last-child { border-right: none; }
-    .hw-tab-btn:hover { color: var(--ivory); }
+    .hw-tab-btn:last-child {
+      border-right: none;
+      justify-content: center;
+    }
+    .hw-tab-btn:hover { color: var(--text-primary); }
     .hw-tab-btn.active {
-      color: #fff6e3;
-      background: rgba(229, 185, 110, 0.14);
-      box-shadow: inset 0 -2px 0 var(--gold-warm);
+      color: var(--ivory);
+      background: rgba(236, 226, 208, 0.055);
+      box-shadow: inset 0 -1.5px 0 var(--champagne);
+    }
+    .hw-tab-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .hw-tab-btn.active .hw-tab-meta {
+      color: var(--champagne);
     }
 
-    .hw-filter-bar {
-      padding: 9px 18px;
-      border-bottom: 1px solid rgba(236, 226, 208, 0.09);
+    /* Quiet Architectural Summary Ledger & Zone Filter */
+    .hw-ledger {
+      padding: 13px 20px 12px;
+      border-bottom: 1px solid var(--hairline);
       display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-      background: rgba(255, 255, 255, 0.018);
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
     }
-    .hw-filter-lbl {
+    .hw-ledger-main {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .hw-ledger-kicker {
       font-family: var(--font-mono);
       font-size: 9.5px;
-      letter-spacing: 0.10em;
+      letter-spacing: 0.14em;
       color: var(--text-muted);
-      margin-right: 4px;
+    }
+    .hw-ledger-total {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: var(--ivory);
+      font-variant-numeric: tabular-nums;
+    }
+    .hw-ledger-total small {
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      margin-left: 4px;
+    }
+    .hw-ledger-spec {
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+    .hw-ledger-spec span {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 9.8px;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .hw-zone-bar {
+      padding: 7px 20px;
+      border-bottom: 1px solid rgba(236, 226, 208, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.18);
+    }
+    .hw-zone-links {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-wrap: wrap;
+    }
+    .hw-zone-lbl {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-right: 6px;
     }
     .beam-chip {
       appearance: none;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(236, 226, 208, 0.16);
-      color: var(--text-secondary);
-      padding: 3.5px 8px;
-      font-size: 10.5px;
-      font-weight: 500;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 2.5px 7px;
+      font-family: var(--font-sans);
+      font-size: 10.8px;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.15s ease;
+      transition: all 0.14s ease;
     }
-    .beam-chip:hover { border-color: var(--champagne); color: #fff; }
+    .beam-chip:hover { color: var(--ivory); }
     .beam-chip.active {
-      border-color: var(--gold-warm);
-      background: rgba(229, 185, 110, 0.18);
-      color: #fff;
+      border-color: var(--hairline-strong);
+      background: rgba(236, 226, 208, 0.06);
+      color: var(--ivory);
     }
-    .chip-swatch {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+    .hw-unit-note {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
     }
 
     .hw-body {
       flex: 1;
       overflow-y: auto;
-      padding: 14px 18px 18px;
+      padding: 0 20px 18px;
     }
-    .hw-body::-webkit-scrollbar { width: 6px; }
-    .hw-body::-webkit-scrollbar-thumb { background: rgba(229, 185, 110, 0.28); }
-    .hw-pane { display: none; flex-direction: column; gap: 12px; }
+    .hw-body::-webkit-scrollbar { width: 4px; }
+    .hw-body::-webkit-scrollbar-thumb { background: rgba(236, 226, 208, 0.18); }
+    .hw-pane { display: none; flex-direction: column; }
     .hw-pane.active { display: flex; }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-    .kpi-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(236, 226, 208, 0.12);
-      padding: 9px 11px;
-    }
-    .kpi-card.highlight {
-      border-color: rgba(229, 185, 110, 0.45);
-      background: rgba(229, 185, 110, 0.09);
-    }
-    .kpi-lbl {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.10em;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-    .kpi-val {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--ivory);
-    }
-    .kpi-card.highlight .kpi-val { color: #fde4ab; }
-    .kpi-sub {
-      font-size: 10px;
-      color: var(--text-secondary);
-      margin-top: 2px;
-    }
 
     .hw-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 11.2px;
+      font-size: 11.3px;
     }
     .hw-table th {
       text-align: left;
       font-family: var(--font-mono);
       font-size: 9.5px;
-      letter-spacing: 0.08em;
-      color: var(--champagne);
-      padding: 7px 8px;
-      border-bottom: 1px solid rgba(236, 226, 208, 0.22);
-      background: rgba(255,255,255,0.03);
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      color: var(--text-muted);
+      padding: 10px 6px 7px;
+      border-bottom: 1px solid var(--hairline-strong);
     }
-    .hw-table th.num, .hw-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .hw-table th:first-child, .hw-table td:first-child { padding-left: 2px; }
+    .hw-table th:last-child, .hw-table td:last-child { padding-right: 2px; }
+    .hw-table th.num, .hw-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 10.8px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
     .hw-table td {
-      padding: 7px 8px;
-      border-bottom: 1px solid rgba(236, 226, 208, 0.08);
+      padding: 8px 6px;
+      border-bottom: 1px solid rgba(236, 226, 208, 0.07);
       color: var(--text-secondary);
-      vertical-align: top;
-      line-height: 1.42;
+      vertical-align: baseline;
+      line-height: 1.45;
+    }
+    .hw-table td.item-name {
+      color: var(--ivory);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .hw-table td.item-spec {
+      font-size: 10.8px;
+      color: var(--text-secondary);
     }
     .hw-table tr.cat-row td {
-      background: rgba(229, 185, 110, 0.07);
-      color: #f6e7c8;
-      font-weight: 600;
-      font-size: 11px;
-      padding: 5px 8px;
+      padding: 13px 2px 5px;
+      border-bottom: 1px solid rgba(236, 226, 208, 0.14);
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      letter-spacing: 0.14em;
+      color: var(--champagne);
+      text-transform: uppercase;
     }
-    .hw-table tr.click-row { cursor: pointer; transition: background 0.14s ease; }
-    .hw-table tr.click-row:hover td { background: rgba(56, 189, 248, 0.09); color: var(--ivory); }
-    .hw-table td strong { color: var(--ivory); font-weight: 600; }
+    .hw-table tr.click-row {
+      cursor: pointer;
+      transition: background 0.14s ease;
+    }
+    .hw-table tr.click-row:hover td {
+      background: rgba(236, 226, 208, 0.04);
+    }
+    .hw-table tr.click-row.focused td:first-child {
+      box-shadow: inset 2px 0 0 var(--gold-warm);
+      padding-left: 8px;
+    }
     .hw-table tr.total-row td {
-      border-top: 1px solid rgba(229, 185, 110, 0.45);
+      border-top: 1px solid var(--hairline-strong);
       border-bottom: none;
-      background: rgba(229, 185, 110, 0.13);
-      color: #fff5df;
-      font-weight: 700;
-      font-size: 12.2px;
-      padding: 9px 8px;
+      color: var(--ivory);
+      font-weight: 500;
+      padding: 11px 2px 6px;
     }
-    .hw-note {
-      font-size: 10.6px;
+    .hw-table tr.total-row td.num {
+      font-size: 13px;
+      color: var(--champagne);
+    }
+    .hw-footnote {
+      margin-top: 10px;
+      padding-top: 9px;
+      border-top: 1px solid rgba(236, 226, 208, 0.07);
+      font-size: 10.5px;
       line-height: 1.55;
       color: var(--text-muted);
-      padding: 8px 10px;
-      border-left: 2px solid rgba(229, 185, 110, 0.45);
-      background: rgba(255,255,255,0.02);
     }
 
     @media (max-width: 1120px) {
       .hw-drawer { left: 16px; right: 16px; width: auto; min-width: 0; top: 88px; bottom: 72px; }
-      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 1024px) {
@@ -953,6 +992,9 @@
     <div class="masthead-meta">
       <span class="theme-pill">THEME : 점 · 선 · 면</span>
       <span>보세창고 1동 실스케일 59.4 × 30.0m (1,782㎡ · 약 539평)</span>
+      <button class="masthead-spec-btn" id="btnMastheadHw" title="프로젝터 배치 및 하드웨어 개산 내역서 열기">
+        <span class="spec-idx">SPEC</span>장비 · 견적 일람
+      </button>
     </div>
   </header>
 
@@ -1032,335 +1074,284 @@
       <button class="key-pad" data-note="63" data-vel="0.62" data-lbl="E♭4 · 𝑝">E♭4</button>
       <button class="key-pad" data-note="68" data-vel="0.74" data-lbl="A♭4 · 𝑚𝑓">A♭4</button>
       <button class="key-pad" data-note="72" data-vel="0.86" data-lbl="C5 · 𝑓">C5</button>
-      <button class="key-pad" data-note="79" data-vel="0.95" data-lbl="G5 · 𝑓𝑓">G5 ★</button>
-    </div>
-
-    <div class="av-quick-strip">
-      <button class="av-qbtn" id="btnBeamMin" title="최소 비용 실속안(8대·대당 360만): A존 샤막 미사용·중앙원형만 투사 + C존 바닥·인터랙션월만 3D 시뮬레이션">
-        <span class="qdot"></span>
-        <span>최소안 3D빔 (8대)</span>
-      </button>
-      <button class="av-qbtn" id="btnBeamFull" title="전체 공간 풀스펙안(28대·대당 600만 초단초점): 전 구역 바닥·샤막·벽면 3D 투사각 표시">
-        <span class="qdot"></span>
-        <span>풀스펙 3D빔 (28대)</span>
-      </button>
-      <button class="av-qbtn span-full" id="btnQuickHwTab" title="최소 비용 실속안(4,760만원) vs 전체 공간 풀스펙안(3억 260만원) 하드웨어 리스트 및 견적 비교 탭">
-        <span class="qdot"></span>
-        <span>하드웨어 · 비용 탭 (최소 4,760만 / 풀스펙 3.02억)</span>
-      </button>
+      <button class="key-pad" data-note="79" data-vel="0.95" data-lbl="G5 · 𝑓𝑓">G5</button>
     </div>
   </aside>
 
-  <!-- 5. Toggleable Expected Hardware List & Cost Estimate Tab Drawer (Minimum Budget vs Full Spec!) -->
-  <aside class="hw-drawer" id="hwDrawer" aria-label="예상 하드웨어 리스트 및 비용 산출 탭">
+  <!-- 5. Architectural Equipment Schedule & Cost Sheet (장비 일람 및 개산 내역서) -->
+  <aside class="hw-drawer" id="hwDrawer" aria-label="프로젝터 배치 및 하드웨어 개산 내역서">
     <div class="hw-head">
       <div>
-        <div class="hw-eyebrow">TECHNICAL AV &amp; PROJECTION MASTER BOM · MINIMUM vs FULL SPEC</div>
-        <h2 class="hw-title">공간 빔 세팅 설계 &amp; 예상 하드웨어 · 구축 비용 산출표</h2>
-        <div class="hw-sub" id="hwSubCaption">현재 선택 : ★ 최소 비용 실속안 — 400만원 이하(360만) 단초점 레이저 8대 · A존 중앙원형(샤막X) + C존 바닥·인터랙션월</div>
+        <div class="hw-eyebrow">EQUIPMENT SCHEDULE · PROJECTION &amp; AV</div>
+        <h2 class="hw-title">프로젝터 배치 및 개산 내역서</h2>
       </div>
-      <button class="hw-close" id="btnCloseHw">✕ 닫기</button>
-    </div>
-
-    <!-- 3D Plan Live Switcher -->
-    <div class="hw-plan-bar" role="group" aria-label="예산안 선택 및 3D 공간 프리뷰 전환">
-      <button class="hw-plan-btn active-min" id="btnPlanMin">
-        <span>★ 최소 비용 실속안 (8대 · 원형집중)</span>
-        <span class="hw-plan-price">4,760만원</span>
-      </button>
-      <button class="hw-plan-btn" id="btnPlanFull">
-        <span>전체 공간 풀스펙안 (28대 · 초단초점)</span>
-        <span class="hw-plan-price">3억 260만원</span>
-      </button>
+      <div class="hw-head-actions">
+        <button class="hw-beam-toggle" id="btnSheetBeams" title="현재 안의 프로젝터 위치 및 3D 투사 영역 표시">
+          <span class="ind-dot"></span>
+          <span>3D 투사망</span>
+        </button>
+        <button class="hw-close" id="btnCloseHw" aria-label="닫기">✕</button>
+      </div>
     </div>
 
     <div class="hw-tabs" role="tablist">
-      <button class="hw-tab-btn active" data-hwtab="min">01 · 최소 비용 실속안 (4,760만)</button>
-      <button class="hw-tab-btn" data-hwtab="full">02 · 풀스펙 확장안 (3억 260만)</button>
-      <button class="hw-tab-btn" data-hwtab="compare">03 · 양안 비교 &amp; 1·2·3악장 운용</button>
+      <button class="hw-tab-btn active" data-hwtab="min">
+        <span>A안 · 실속형 (8대)</span>
+        <span class="hw-tab-meta">4,760만</span>
+      </button>
+      <button class="hw-tab-btn" data-hwtab="full">
+        <span>B안 · 기본형 (28대)</span>
+        <span class="hw-tab-meta">3억 260만</span>
+      </button>
+      <button class="hw-tab-btn" data-hwtab="compare">
+        <span>설계 비교</span>
+      </button>
     </div>
 
-    <div class="hw-filter-bar">
-      <span class="hw-filter-lbl">3D 빔 투사각 강조 :</span>
-      <button class="beam-chip active" data-bgroup="all"><span class="chip-swatch" style="background:#e5b96e"></span><span id="chipLblAll">전체 8대</span></button>
-      <button class="beam-chip" data-bgroup="aFloor"><span class="chip-swatch" style="background:#38bdf8"></span><span id="chipLblAFloor">A존 중앙원형 (4대)</span></button>
-      <button class="beam-chip" data-bgroup="aScrim" id="chipAScrim"><span class="chip-swatch" style="background:#c084fc"></span><span id="chipLblAScrim">A존 샤막 (미사용·0대)</span></button>
-      <button class="beam-chip" data-bgroup="cFloor"><span class="chip-swatch" style="background:#fbbf24"></span><span id="chipLblCFloor">C존 바닥 (2대)</span></button>
-      <button class="beam-chip" data-bgroup="cWall"><span class="chip-swatch" style="background:#34d399"></span><span id="chipLblCWall">C존 인터랙션월 (2대)</span></button>
+    <div class="hw-ledger" id="hwLedgerBar">
+      <div class="hw-ledger-main">
+        <span class="hw-ledger-kicker" id="hwLedgerKicker">PLAN A · 실속형 개산 합계 (VAT 별도)</span>
+        <div class="hw-ledger-total" id="hwLedgerTotal">47,600,000<small>원</small></div>
+      </div>
+      <div class="hw-ledger-spec" id="hwLedgerSpec">
+        단초점 레이저 8대 · 워크스테이션 1식 · 센서 2식
+        <span>기존 음향·조명 활용 시 43,000,000원</span>
+      </div>
+    </div>
+
+    <div class="hw-zone-bar" id="hwZoneBar">
+      <div class="hw-zone-links">
+        <span class="hw-zone-lbl">투사 구간</span>
+        <button class="beam-chip active" data-bgroup="all" id="chipAll">전체 (8)</button>
+        <button class="beam-chip" data-bgroup="aFloor" id="chipAFloor">A존 바닥 (4)</button>
+        <button class="beam-chip" data-bgroup="aScrim" id="chipAScrim" style="display:none">A존 샤막 (4)</button>
+        <button class="beam-chip" data-bgroup="cFloor" id="chipCFloor">C존 바닥 (2)</button>
+        <button class="beam-chip" data-bgroup="cWall" id="chipCWall">C존 벽면 (2)</button>
+      </div>
+      <span class="hw-unit-note">단위 : 만원</span>
     </div>
 
     <div class="hw-body">
-      <!-- SUB-TAB 1: MINIMUM-COST PRACTICAL PLAN (8 UNITS · ≤400만원 · 총 4,760만원) -->
+      <!-- PLAN A: MINIMUM PRACTICAL SCHEDULE (8 UNITS · 4,760만원) -->
       <div class="hw-pane active" id="hwPane-min">
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-lbl">ST LASER PROJECTORS</div>
-            <div class="kpi-val">총 8 대</div>
-            <div class="kpi-sub">대당 360만원 (400만 이하 단초점)</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-lbl">BEAM SUBTOTAL</div>
-            <div class="kpi-val">2,880만원</div>
-            <div class="kpi-sub">A중앙원 4대 + C바닥2·월2</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-lbl">1× PC · 2× SENSOR · ETC</div>
-            <div class="kpi-val">1,880만원</div>
-            <div class="kpi-sub">8ch 단일PC·센서2·샤막제외</div>
-          </div>
-          <div class="kpi-card highlight">
-            <div class="kpi-lbl">MINIMUM TOTAL</div>
-            <div class="kpi-val">4,760만원</div>
-            <div class="kpi-sub">음향·조명 제외 시 4,300만원</div>
-          </div>
-        </div>
-
         <table class="hw-table">
           <thead>
             <tr>
-              <th>최소안 품목 및 구역 (클릭 시 3D 강조)</th>
-              <th>세부 규격 및 최소 비용 최적화 설계</th>
+              <th>품명</th>
+              <th>규격 및 배치 기준</th>
               <th class="num">수량</th>
               <th class="num">단가</th>
-              <th class="num">합계</th>
+              <th class="num">금액</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="cat-row"><td colspan="5">1. 영상 프로젝션 파트 — 400만원 이하 단초점(ST) 레이저 8대 집중 구성</td></tr>
+            <tr class="cat-row"><td colspan="5">01 · 영상 프로젝션 (단초점 레이저 · 대당 400만 이하)</td></tr>
             <tr class="click-row" data-plan="min" data-focusgroup="aFloor">
-              <td><strong>① A존 중앙 원형 바닥 빔</strong><br><span style="color:#38bdf8;font-size:10px;">PJ-M01 ~ PJ-M04 (샤막 제외)</span></td>
-              <td>4,200 ANSI WUXGA 레이저 단초점(TR 0.48:1) <strong>2×2 쿼드런트 블렌딩</strong> → 피아노 중심 <strong>직경 17.2m 원형 회랑 영역만 집중 투사</strong> (원형 마스크 처리, 4면 샤막 미사용)</td>
+              <td class="item-name">A존 바닥 프로젝터</td>
+              <td class="item-spec">4,200 ANSI WUXGA 단초점 (TR 0.48) · 중앙 원형(Ø17.2m) 2×2 블렌딩, 샤막 제외</td>
               <td class="num">4 대</td>
-              <td class="num">360만</td>
-              <td class="num"><strong>1,440만</strong></td>
+              <td class="num">360</td>
+              <td class="num">1,440</td>
             </tr>
             <tr class="click-row" data-plan="min" data-focusgroup="cFloor">
-              <td><strong>② C존 유체 인터랙션 바닥 빔</strong><br><span style="color:#fbbf24;font-size:10px;">PJ-MC1 ~ PJ-MC2</span></td>
-              <td>4,200 ANSI 레이저 단초점(TR 0.48:1) <strong>1×2 종방향 엣지블렌딩</strong> → 관람객이 걷고 앉는 핵심 동선 바닥에 오선지 유체 갈라짐 투사</td>
+              <td class="item-name">C존 바닥 프로젝터</td>
+              <td class="item-spec">4,200 ANSI WUXGA 단초점 (TR 0.48) · 관람 동선 유체 바닥 1×2 블렌딩</td>
               <td class="num">2 대</td>
-              <td class="num">360만</td>
-              <td class="num"><strong>720만</strong></td>
+              <td class="num">360</td>
+              <td class="num">720</td>
             </tr>
             <tr class="click-row" data-plan="min" data-focusgroup="cWall">
-              <td><strong>③ C존 실루엣 인터랙션 월 빔</strong><br><span style="color:#34d399;font-size:10px;">PJ-MW1 ~ PJ-MW2 (보조벽 제외)</span></td>
-              <td>4,200 ANSI 레이저 단초점(TR 0.46:1, 벽면 4.6m 이격 천장) <strong>1×2 가로 블렌딩</strong> → 다중 자세 실루엣 인터랙션 메인 월만 집중 구현 (내부 격벽 투사 생략)</td>
+              <td class="item-name">C존 벽면 프로젝터</td>
+              <td class="item-spec">4,200 ANSI WUXGA 단초점 (TR 0.46) · 우측 실루엣 인터랙션 월 1×2 블렌딩</td>
               <td class="num">2 대</td>
-              <td class="num">360만</td>
-              <td class="num"><strong>720만</strong></td>
+              <td class="num">360</td>
+              <td class="num">720</td>
             </tr>
             <tr>
-              <td><strong>천장 브라켓 &amp; 광 HDMI 전송선</strong></td>
-              <td>단초점 천장 봉브라켓·안전와이어(8식) + 무손실 광 HDMI 2.0 액티브 케이블(8라인)</td>
+              <td class="item-name">브라켓 · 신호 배선</td>
+              <td class="item-spec">천장 봉브라켓·안전와이어 8식, 광 HDMI 2.0 액티브 케이블 8회선</td>
               <td class="num">8 식</td>
-              <td class="num">30만</td>
-              <td class="num"><strong>240만</strong></td>
+              <td class="num">30</td>
+              <td class="num">240</td>
             </tr>
 
-            <tr class="cat-row"><td colspan="5">2. 초경량 단일 미디어 PC · 인터랙션 센서 · 기본 음향/핀스팟</td></tr>
+            <tr class="cat-row"><td colspan="5">02 · 제어 시스템 · 센서 · 부대설비</td></tr>
             <tr>
-              <td><strong>통합 8채널 미디어 워크스테이션</strong></td>
-              <td>총 8채널(A존4+C존4) 이하이므로 고가 다중 서버 대신 <strong>듀얼 GPU 고성능 커스텀 PC 1식</strong> + 8ch 엣지블렌딩/물리엔진 SW 통합 구동</td>
+              <td class="item-name">통합 미디어 PC</td>
+              <td class="item-spec">듀얼 GPU 워크스테이션 (8채널 엣지블렌딩 및 실시간 물리엔진 통합 구동)</td>
               <td class="num">1 식</td>
-              <td class="num">780만</td>
-              <td class="num"><strong>780만</strong></td>
+              <td class="num">780</td>
+              <td class="num">780</td>
             </tr>
             <tr>
-              <td><strong>C존 인터랙션 트래킹 센서</strong></td>
-              <td>PoE 광각 2D LiDAR 또는 ToF 심도 카메라 (C존 바닥 동선 + 실루엣 월 자세 감지 전용)</td>
+              <td class="item-name">트래킹 센서</td>
+              <td class="item-spec">PoE 광각 2D LiDAR / ToF 센서 (C존 바닥 동선 및 벽면 자세 감지)</td>
               <td class="num">2 식</td>
-              <td class="num">110만</td>
-              <td class="num"><strong>220만</strong></td>
+              <td class="num">110</td>
+              <td class="num">220</td>
             </tr>
             <tr>
-              <td><strong>소형 벽부랙 · 네트워크 · UPS</strong></td>
-              <td>9U 컴팩트 허브랙, 기가비트 PoE 스위치, 전원 순차분배기 및 무정전 UPS</td>
+              <td class="item-name">시스템 랙 · 전원</td>
+              <td class="item-spec">9U 벽부형 허브랙, 기가비트 PoE 스위치, 순차전원분배기·UPS</td>
               <td class="num">1 식</td>
-              <td class="num">180만</td>
-              <td class="num"><strong>180만</strong></td>
+              <td class="num">180</td>
+              <td class="num">180</td>
             </tr>
             <tr>
-              <td><strong>기본 액티브 음향 &amp; 피아노 핀스팟</strong></td>
-              <td>컴팩트 액티브 컬럼 스피커 1조 + 피아노 마이크 + 중앙 LED 핀스팟 2등 (기존 장비 활용 시 제외 가능)</td>
+              <td class="item-name">기본 음향 · 핀스팟</td>
+              <td class="item-spec">액티브 컬럼 스피커 1조, 피아노 마이크, 중앙 LED 핀스팟 2등</td>
               <td class="num">1 식</td>
-              <td class="num">460만</td>
-              <td class="num"><strong>460만</strong></td>
+              <td class="num">460</td>
+              <td class="num">460</td>
             </tr>
             <tr class="total-row">
-              <td colspan="4">최소 비용 실속안 총 합계 (VAT 별도 · 기존 음향/조명 활용 시 순수 영상·인터랙션 4,300만원)</td>
-              <td class="num">4,760만원</td>
+              <td colspan="4">합계 (VAT 별도)</td>
+              <td class="num">4,760만</td>
             </tr>
           </tbody>
         </table>
-
-        <div class="hw-note">
-          💡 <strong>최소 비용 실속안 핵심 포인트 :</strong> ① 600만원 초단초점 대신 <strong>360만원대 상업용 4,200 ANSI 단초점(TR 0.46~0.48:1) 레이저 빔</strong> 채택, ② A존 4면 전동 샤막(4,000만 상당) 과감히 생략 후 <strong>중앙 원형 관람 회랑(직경 17.2m) 내부만 4대로 밀도 있게 투사</strong>, ③ 전체 채널을 <strong>8ch</strong>로 압축해 <strong>단일 워크스테이션 PC 1대</strong>로 구동함으로써 풀스펙 대비 <strong>약 2억 5,500만원(84.3%)을 절감</strong>했습니다. (상단 <code>최소안 3D빔 (8대)</code> 활성 시 3D 화면에서도 원형 바닥 마스킹이 즉시 시연됩니다!)
+        <div class="hw-footnote">
+          ※ 행을 클릭하면 해당 구간의 3D 투사망과 원형 바닥 마스킹 범위가 공간 상에 표시됩니다.<br>
+          ※ 기존 음향·조명 활용 시 순수 영상·센서 구축비 4,300만원 기준 (전기간선·콘텐츠 제작비 별도).
         </div>
       </div>
 
-      <!-- SUB-TAB 2: FULL-SPEC EXPANDED PLAN (28 UNITS · 600만원 UST · 총 3억 260만원) -->
+      <!-- PLAN B: FULL SPATIAL SCHEDULE (28 UNITS · 3억 260만원) -->
       <div class="hw-pane" id="hwPane-full">
-        <div class="kpi-grid">
-          <div class="kpi-card">
-            <div class="kpi-lbl">UST PROJECTORS</div>
-            <div class="kpi-val">총 28 대</div>
-            <div class="kpi-sub">대당 600만원 (4,000lm 초단초점)</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-lbl">BEAM SUBTOTAL</div>
-            <div class="kpi-val">1억 6,800만</div>
-            <div class="kpi-sub">A바닥16·샤막4 + C바닥4·월4</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-lbl">SERVER · SCRIM · ETC</div>
-            <div class="kpi-val">1억 3,460만</div>
-            <div class="kpi-sub">서버3·센서6·전동샤막·음향</div>
-          </div>
-          <div class="kpi-card highlight">
-            <div class="kpi-lbl">FULL SPEC TOTAL</div>
-            <div class="kpi-val">3억 260만원</div>
-            <div class="kpi-sub">539평 전구역 풀스펙 (VAT별도)</div>
-          </div>
-        </div>
-
         <table class="hw-table">
           <thead>
             <tr>
-              <th>풀스펙 품목 및 파트 (클릭 시 3D 강조)</th>
-              <th>세부 규격 (4,000 ANSI 초단초점 레이저 · 대당 600만원 기준)</th>
+              <th>품명</th>
+              <th>규격 및 배치 기준</th>
               <th class="num">수량</th>
               <th class="num">단가</th>
-              <th class="num">합계</th>
+              <th class="num">금액</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="cat-row"><td colspan="5">1. 전 구역 초단초점(UST) 프로젝션 파트 (28대)</td></tr>
+            <tr class="cat-row"><td colspan="5">01 · 초단초점(UST) 영상 프로젝션 (대당 600만 기준)</td></tr>
             <tr class="click-row" data-plan="full" data-focusgroup="aFloor">
-              <td><strong>A존 전체 바닥 초단초점 빔</strong></td>
-              <td>4,000 ANSI WUXGA 레이저, TR 0.28:1 (38.4×30m 전체 4×4 그리드)</td>
+              <td class="item-name">A존 바닥 프로젝터</td>
+              <td class="item-spec">4,000 ANSI WUXGA 초단초점 (TR 0.28) · A존 바닥 전체(38.4×30m) 4×4 그리드</td>
               <td class="num">16 대</td>
-              <td class="num">600만</td>
-              <td class="num"><strong>9,600만</strong></td>
+              <td class="num">600</td>
+              <td class="num">9,600</td>
             </tr>
             <tr class="click-row" data-plan="full" data-focusgroup="aScrim">
-              <td><strong>A존 4면 샤막 홀로그램 빔</strong></td>
-              <td>4,000 ANSI WUXGA 레이저, TR 0.28:1 (연주 OFF 시 홀로그램 연주자)</td>
+              <td class="item-name">A존 샤막 프로젝터</td>
+              <td class="item-spec">4,000 ANSI WUXGA 초단초점 (TR 0.28) · 중앙 4면 홀로그램 샤막 투사</td>
               <td class="num">4 대</td>
-              <td class="num">600만</td>
-              <td class="num"><strong>2,400만</strong></td>
+              <td class="num">600</td>
+              <td class="num">2,400</td>
             </tr>
             <tr class="click-row" data-plan="full" data-focusgroup="cFloor">
-              <td><strong>C존 유체 바닥 초단초점 빔</strong></td>
-              <td>4,000 ANSI WUXGA 레이저, TR 0.28:1 (2×2 그리드 전체 바닥)</td>
+              <td class="item-name">C존 바닥 프로젝터</td>
+              <td class="item-spec">4,000 ANSI WUXGA 초단초점 (TR 0.28) · 유체 인터랙션 바닥 전체 2×2 그리드</td>
               <td class="num">4 대</td>
-              <td class="num">600만</td>
-              <td class="num"><strong>2,400만</strong></td>
+              <td class="num">600</td>
+              <td class="num">2,400</td>
             </tr>
             <tr class="click-row" data-plan="full" data-focusgroup="cWall">
-              <td><strong>C존 실루엣·악보월 초단초점 빔</strong></td>
-              <td>4,000 ANSI 레이저, TR 0.25:1 벽면 1.35m 초근접 무그림자 투사 (보조벽 포함)</td>
+              <td class="item-name">C존 벽면 프로젝터</td>
+              <td class="item-spec">4,000 ANSI WUXGA 초단초점 (TR 0.25) · 벽면 1.35m 이격 무그림자 투사 (내벽 포함)</td>
               <td class="num">4 대</td>
-              <td class="num">600만</td>
-              <td class="num"><strong>2,400만</strong></td>
+              <td class="num">600</td>
+              <td class="num">2,400</td>
             </tr>
             <tr>
-              <td><strong>UST 3축 정밀 브라켓 · 클램프</strong></td>
-              <td>초단초점 미세 정렬 마운트, 트러스 클램프, 안전와이어</td>
+              <td class="item-name">정밀 브라켓 · 자재</td>
+              <td class="item-spec">초단초점 3축 미세조정 마운트, 트러스 클램프, 안전와이어 일체</td>
               <td class="num">28 식</td>
-              <td class="num">35만</td>
-              <td class="num"><strong>980만</strong></td>
+              <td class="num">35</td>
+              <td class="num">980</td>
             </tr>
-            <tr class="cat-row"><td colspan="5">2. 다중 미디어 서버 · 전동 샤막 · 센서 · 콘서트 음향/조명</td></tr>
+
+            <tr class="cat-row"><td colspan="5">02 · 다채널 서버 · 전동 샤막 · 음향/조명</td></tr>
             <tr>
-              <td><strong>통합 미디어 서버 &amp; 광전송 랙</strong></td>
-              <td>A존 메인 서버(2식·3,600만) + C존 서버(1식·1,500만) + 28조 광전송/42U랙(1,200만)</td>
+              <td class="item-name">통합 미디어 서버 랙</td>
+              <td class="item-spec">다채널 서버 3식(A존 2·C존 1), 28회선 광전송기, 42U 표준랙</td>
               <td class="num">1 식</td>
-              <td class="num">6,300만</td>
-              <td class="num"><strong>6,300만</strong></td>
-            </tr>
-            <tr>
-              <td><strong>3D LiDAR 센서 &amp; 4면 전동 샤막</strong></td>
-              <td>PoE LiDAR 트래킹 센서 6식(1,080만) + 4면 전동 롤러 홀로그램 샤막(1,600만)</td>
-              <td class="num">1 식</td>
-              <td class="num">2,680만</td>
-              <td class="num"><strong>2,680만</strong></td>
+              <td class="num">6,300</td>
+              <td class="num">6,300</td>
             </tr>
             <tr>
-              <td><strong>콘서트 음향 &amp; DMX 무대조명</strong></td>
-              <td>이머시브 스피커 8통·서브우퍼(2,400만) + 원형회랑/다크월 DMX 조명(1,100만)</td>
+              <td class="item-name">센서 · 전동 샤막</td>
+              <td class="item-spec">PoE LiDAR 센서 6식(1,080만), 4면 전동 롤러 홀로그램 샤막(1,600만)</td>
               <td class="num">1 식</td>
-              <td class="num">3,500만</td>
-              <td class="num"><strong>3,500만</strong></td>
+              <td class="num">2,680</td>
+              <td class="num">2,680</td>
+            </tr>
+            <tr>
+              <td class="item-name">콘서트 음향 · 조명</td>
+              <td class="item-spec">이머시브 스피커 8통·서브우퍼(2,400만), 원형회랑·다크월 DMX 조명(1,100만)</td>
+              <td class="num">1 식</td>
+              <td class="num">3,500</td>
+              <td class="num">3,500</td>
             </tr>
             <tr class="total-row">
-              <td colspan="4">풀스펙 확장안 총 예상 하드웨어 구축 비용 합계 (VAT 별도)</td>
-              <td class="num">3억 260만원</td>
+              <td colspan="4">합계 (VAT 별도)</td>
+              <td class="num">3억 260만</td>
             </tr>
           </tbody>
         </table>
+        <div class="hw-footnote">
+          ※ 부가세, 1차 전기간선 인입 및 상부 트러스 구조보강, 미디어 콘텐츠 제작비 별도 기준.
+        </div>
       </div>
 
-      <!-- SUB-TAB 3: SIDE-BY-SIDE COMPARISON & 1·2·3 MOVEMENT CHROMATIC DIRECTION -->
+      <!-- COMPARISON TAB -->
       <div class="hw-pane" id="hwPane-compare">
-        <table class="hw-table" style="margin-bottom:14px;">
-          <thead>
-            <tr>
-              <th>비교 항목</th>
-              <th>★ 최소 비용 실속안 (4,760만원)</th>
-              <th>전체 공간 풀스펙안 (3억 260만원)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>프로젝터 사양 · 단가</strong></td>
-              <td><strong style="color:#34d399;">360만원</strong> (≤400만 · 4,200lm 레이저 단초점)</td>
-              <td><strong>600만원</strong> (4,000lm 레이저 초단초점 UST)</td>
-            </tr>
-            <tr>
-              <td><strong>총 프로젝터 수량</strong></td>
-              <td><strong style="color:#34d399;">총 8 대 (2,880만원)</strong></td>
-              <td><strong>총 28 대 (1억 6,800만원)</strong></td>
-            </tr>
-            <tr>
-              <td><strong>A존 공간 연출 범위</strong></td>
-              <td><strong>샤막 미사용</strong> · 중앙 원형 관람회랑(Ø17.2m) 바닥만 <strong>4대</strong> 집중 투사</td>
-              <td>4면 전동 홀로그램 샤막(4대) + 350평 바닥 전체(16대) 광역 투사</td>
-            </tr>
-            <tr>
-              <td><strong>C존 공간 연출 범위</strong></td>
-              <td>유체 바닥(<strong>2대</strong>) + 메인 실루엣 인터랙션 월(<strong>2대</strong>) 핵심만 구동</td>
-              <td>유체 바닥(4대) + 실루엣월 및 보조 악보 내벽 전체(4대) 무그림자 구동</td>
-            </tr>
-            <tr>
-              <td><strong>서버 &amp; 센서 구성</strong></td>
-              <td><strong>단일 8ch 워크스테이션 PC 1대</strong> + 센서 2식 (유지보수 간편)</td>
-              <td>다채널 워크스테이션 서버 3대 + PoE LiDAR 센서 6식</td>
-            </tr>
-          </tbody>
-        </table>
-
         <table class="hw-table">
           <thead>
             <tr>
-              <th>악장 (기본 진입: 1악장 실연)</th>
-              <th>전용 컬러 팔레트</th>
-              <th>개선된 공간 시각 연출 (점 · 선 · 면 일관된 서정적 밀도)</th>
+              <th>항목</th>
+              <th>A안 · 실속형 (4,760만)</th>
+              <th>B안 · 기본형 (3억 260만)</th>
             </tr>
           </thead>
           <tbody>
+            <tr class="cat-row"><td colspan="3">설계 범위 및 하드웨어 사양 비교</td></tr>
             <tr>
-              <td><strong>1악장 [점 · POINT]</strong><br><span style="color:#60a5fa;font-size:10px;">디폴트 실연 장면</span></td>
-              <td><span style="color:#60a5fa;">● 코즈믹 사파이어 &amp; 실버블루</span></td>
-              <td>접속 즉시 실연 모드로 가동되며, <strong>중앙 피아노를 축으로 4중 나선 은하 성운과 케플러 공전 별빛·미세 성좌</strong>가 고요하게 공전</td>
+              <td class="item-name">프로젝터 사양</td>
+              <td class="item-spec">4,200 ANSI 단초점 레이저 (360만원/대)</td>
+              <td class="item-spec">4,000 ANSI 초단초점 UST (600만원/대)</td>
             </tr>
             <tr>
-              <td><strong>2악장 [선 · LINE]</strong></td>
-              <td><span style="color:#f4a878;">● 샴페인 로즈골드 &amp; 코랄 앰버</span></td>
-              <td>방사형 하프 현, 역회전 황금 나선, 동심 아스트롤라베 링, 34가닥 실크 파동 리본이 우아하고 선명하게 교차·유영</td>
+              <td class="item-name">투사 수량</td>
+              <td class="item-spec">총 8대 (프로젝터 소계 2,880만원)</td>
+              <td class="item-spec">총 28대 (프로젝터 소계 1억 6,800만원)</td>
             </tr>
             <tr>
-              <td><strong>3악장 [면 · PLANE]</strong><br><span style="color:#34d399;font-size:10px;">중첩·변화 베일 리뉴얼</span></td>
-              <td><span style="color:#34d399;">● 오로라 에메랄드 · 시안 &amp; 아메시스트</span></td>
-              <td>1·2악장의 서정적 밀도에 맞춰 <strong>반투명 부채꼴 빛의 장막, 유영하며 형태가 변하는 곡면·다각 세일(Sail), 동심 조리개 면들이 겹쳐지며</strong> 교차부 색감과 형태가 유기적으로 변화</td>
+              <td class="item-name">A존 연출 범위</td>
+              <td class="item-spec">샤막 미사용 · 중앙 원형 회랑(Ø17.2m) 바닥 4대 집중</td>
+              <td class="item-spec">4면 전동 샤막(4대) + 350평 바닥 전체(16대) 투사</td>
+            </tr>
+            <tr>
+              <td class="item-name">C존 연출 범위</td>
+              <td class="item-spec">유체 바닥(2대) + 우측 실루엣 월(2대) 핵심 구간</td>
+              <td class="item-spec">유체 바닥(4대) + 실루엣 월·내부 격벽 전체(4대)</td>
+            </tr>
+            <tr>
+              <td class="item-name">서버 및 센서</td>
+              <td class="item-spec">단일 8ch 워크스테이션 1대 · 센서 2식</td>
+              <td class="item-spec">다채널 미디어 서버 3대 · PoE LiDAR 6식</td>
+            </tr>
+
+            <tr class="cat-row"><td colspan="3">악장별 공간 색채 및 시각 연출 기준</td></tr>
+            <tr>
+              <td class="item-name">제1악장 · 점</td>
+              <td class="item-spec">사파이어 · 실버블루</td>
+              <td class="item-spec">초기 진입 기본 장면 · 피아노 중심 나선 성운 및 별빛 공전</td>
+            </tr>
+            <tr>
+              <td class="item-name">제2악장 · 선</td>
+              <td class="item-spec">샴페인 로즈 · 앰버</td>
+              <td class="item-spec">방사형 현, 황금 나선, 동심 아스트롤라베 및 실크 리본 파동</td>
+            </tr>
+            <tr>
+              <td class="item-name">제3악장 · 면</td>
+              <td class="item-spec">에메랄드 · 바이올렛</td>
+              <td class="item-spec">반투명 부채꼴 장막과 곡면·다각 면들의 중첩 및 색채 전이</td>
             </tr>
           </tbody>
         </table>
@@ -1371,11 +1362,11 @@
   <!-- 3. Contextual Curatorial Monograph Note -->
   <section class="editorial-note ui-layer ui-collapsible" id="editorialNote">
     <div class="note-index" id="noteIndex">00 / 1,782㎡ MASTER SCALE · POINT · LINE · PLANE</div>
-    <h2 class="note-heading" id="noteHeading">539평 보세창고 1:1 실스케일 & 원형 회랑 · 점·선·면 시퀀스</h2>
+    <h2 class="note-heading" id="noteHeading">539평 보세창고 1:1 실스케일 &amp; 원형 회랑 · 점·선·면 시퀀스</h2>
     <p class="note-body" id="noteBody">
-      접속 시 제1악장(사파이어 중심 공전 우주) 실연 장면이 기본 펼쳐지며, 제2악장(로즈골드 다중 실크 라인)과 제3악장(서로 겹쳐지고 유려하게 변화하는 에메랄드·바이올렛 빛의 면)을 자유롭게 전환하고 최소비용안(8대·4,760만원) 및 풀스펙안(28대) 빔 세팅을 비교할 수 있습니다.
+      영도 보세창고 1동 실제 면적(59.4 × 30.0m, 약 539평)에 맞춰 그랜드피아노(2.74m)와 관람객(1.72m)을 1:1 비례로 구현했습니다. 접속 시 제1악장(점) 실연 장면이 기본 전개되며, 우측 콘솔에서 제2악장(선)·제3악장(면) 전환을, 하단 장비 내역서에서 프로젝터 배치 및 개산 견적을 확인할 수 있습니다.
     </p>
-    <div class="note-specs" id="noteSpecs">DEFAULT: MVT 1 LIVE  |  MIN 8 BEAMS (47.6M KRW) / FULL 28 BEAMS</div>
+    <div class="note-specs" id="noteSpecs">LIVE : MVT 01 POINT  |  SCALE 1:1 (59.4 × 30.0 × 8.2M)</div>
   </section>
 
   <div class="gesture-hint ui-layer ui-collapsible">DRAG TO ORBIT · RIGHT-DRAG TO PAN · SCROLL TO ZOOM</div>
@@ -1391,8 +1382,8 @@
     </div>
 
     <div class="dock-group" role="toolbar" aria-label="레이어 및 외피 제어">
-      <button class="layer-btn" id="togBeams" title="공간 내 3D 프로젝터 및 투사 영역 표시/숨김"><span class="ind-dot"></span><span id="togBeamsLbl">빔세팅(8)</span></button>
-      <button class="layer-btn" id="btnDockHw" title="최소 비용안(4,760만원) / 풀스펙안(3억 260만원) 하드웨어 리스트 및 견적 비교 탭 토글"><span class="ind-dot"></span>하드웨어·견적</button>
+      <button class="layer-btn" id="btnDockHw" title="프로젝터 배치 및 하드웨어 개산 내역서"><span class="ind-dot"></span>장비 내역서</button>
+      <button class="layer-btn" id="togBeams" title="공간 내 3D 프로젝터 및 투사 영역 표시/숨김"><span class="ind-dot"></span><span id="togBeamsLbl">투사망 (8)</span></button>
       <button class="layer-btn on" id="togFlow"><span class="ind-dot"></span>동선</button>
       <button class="layer-btn on" id="togLabels"><span class="ind-dot"></span>콜아웃</button>
       <button class="layer-btn on" id="togTruss"><span class="ind-dot"></span>트러스</button>
@@ -1436,129 +1427,117 @@
     specBarEls.push(b);
   }
 
-  // Layer Toggles & Beam Rig / Hardware BOM Drawer State (Default: Clean 1악장 Live Scene, Beams toggled on demand!)
+  // Layer Toggles & Equipment Schedule Sheet State
   const layers = { beams: false, flow: true, labels: true, truss: true, context: true };
-  let hwPlan = 'min';           // 'min' (8대 · 4,760만원) | 'full' (28대 · 3억 260만원)
-  let scenePlanMode = 'full';   // 'full' on clean initial entry; switches live to 'min' when previewing Minimum Plan!
+  let hwPlan = 'min';             // 'min' (A안 · 8대 · 4,760만) | 'full' (B안 · 28대 · 3억 260만)
+  let hwActiveTab = 'min';        // 'min' | 'full' | 'compare'
+  let scenePlanMode = 'full';     // Clean full floor on initial entry; follows hwPlan when sheet or beams active
   let beamHighlightGroup = 'all'; // 'all' | 'aFloor' | 'aScrim' | 'cFloor' | 'cWall'
 
-  const btnBeamMinEl  = document.getElementById('btnBeamMin');
-  const btnBeamFullEl = document.getElementById('btnBeamFull');
-  const togBeamsEl    = document.getElementById('togBeams');
-  const togBeamsLblEl = document.getElementById('togBeamsLbl');
-  const btnPlanMinEl  = document.getElementById('btnPlanMin');
-  const btnPlanFullEl = document.getElementById('btnPlanFull');
-  const hwSubCapEl    = document.getElementById('hwSubCaption');
+  const hwDrawerEl     = document.getElementById('hwDrawer');
+  const btnMastheadHw  = document.getElementById('btnMastheadHw');
+  const btnDockHw      = document.getElementById('btnDockHw');
+  const btnSheetBeams  = document.getElementById('btnSheetBeams');
+  const togBeamsEl     = document.getElementById('togBeams');
+  const togBeamsLblEl  = document.getElementById('togBeamsLbl');
+  const hwLedgerBarEl  = document.getElementById('hwLedgerBar');
+  const hwZoneBarEl    = document.getElementById('hwZoneBar');
+  const hwLedgerKicker = document.getElementById('hwLedgerKicker');
+  const hwLedgerTotal  = document.getElementById('hwLedgerTotal');
+  const hwLedgerSpec   = document.getElementById('hwLedgerSpec');
 
   function syncHwPlanUI() {
     const isMin = hwPlan === 'min';
-    btnPlanMinEl.classList.toggle('active-min', isMin);
-    btnPlanFullEl.classList.toggle('active-full', !isMin);
-    togBeamsLblEl.textContent = isMin ? '빔세팅(8)' : '빔세팅(28)';
-    hwSubCapEl.textContent = isMin
-      ? '현재 선택 : ★ 최소 비용 실속안 — 400만원 이하(360만) 단초점 레이저 8대 · A존 중앙원형(샤막X) + C존 바닥·인터랙션월'
-      : '현재 선택 : 전체 공간 풀스펙안 — 600만원 초단초점(UST) 레이저 28대 · A존 전체바닥+4면샤막 + C존 전체바닥·벽면';
+    const isCompare = hwActiveTab === 'compare';
 
-    document.getElementById('chipLblAll').textContent    = isMin ? '전체 8대' : '전체 28대';
-    document.getElementById('chipLblAFloor').textContent = isMin ? 'A존 중앙원형 (4대)' : 'A존 바닥 (16대)';
-    document.getElementById('chipLblAScrim').textContent = isMin ? 'A존 샤막 (미사용·0대)' : 'A존 4면 샤막 (4대)';
-    document.getElementById('chipLblCFloor').textContent = isMin ? 'C존 바닥 (2대)' : 'C존 유체바닥 (4대)';
-    document.getElementById('chipLblCWall').textContent  = isMin ? 'C존 인터랙션월 (2대)' : 'C존 실루엣월 (4대)';
-    document.getElementById('chipAScrim').style.opacity  = isMin ? '0.45' : '1';
+    togBeamsLblEl.textContent = isMin ? '투사망 (8)' : '투사망 (28)';
+    togBeamsEl.classList.toggle('on', layers.beams);
+    btnSheetBeams.classList.toggle('on', layers.beams);
+
+    hwLedgerBarEl.style.display = isCompare ? 'none' : 'flex';
+    hwZoneBarEl.style.display   = isCompare ? 'none' : 'flex';
+
+    if (isMin) {
+      hwLedgerKicker.textContent = 'PLAN A · 실속형 개산 합계 (VAT 별도)';
+      hwLedgerTotal.innerHTML = '47,600,000<small>원</small>';
+      hwLedgerSpec.innerHTML = '단초점 레이저 8대 · 워크스테이션 1식 · 센서 2식<span>기존 음향·조명 활용 시 43,000,000원</span>';
+    } else {
+      hwLedgerKicker.textContent = 'PLAN B · 기본형 개산 합계 (VAT 별도)';
+      hwLedgerTotal.innerHTML = '302,600,000<small>원</small>';
+      hwLedgerSpec.innerHTML = '초단초점 레이저 28대 · 서버 3식 · 샤막·음향 일체<span>539평 전 구역 바닥 · 샤막 · 벽면 풀스펙</span>';
+    }
+
+    document.getElementById('chipAll').textContent    = isMin ? '전체 (8)' : '전체 (28)';
+    document.getElementById('chipAFloor').textContent = isMin ? 'A존 원형바닥 (4)' : 'A존 바닥 (16)';
+    document.getElementById('chipAScrim').style.display = isMin ? 'none' : 'inline-block';
+    document.getElementById('chipCFloor').textContent = isMin ? 'C존 바닥 (2)' : 'C존 바닥 (4)';
+    document.getElementById('chipCWall').textContent  = isMin ? 'C존 벽면 (2)' : 'C존 벽면 (4)';
 
     if (isMin && beamHighlightGroup === 'aScrim') beamHighlightGroup = 'all';
-    document.querySelectorAll('.beam-chip').forEach(ch => ch.classList.toggle('active', ch.dataset.bgroup === beamHighlightGroup));
+    document.querySelectorAll('.beam-chip').forEach(ch => {
+      ch.classList.toggle('active', ch.dataset.bgroup === beamHighlightGroup);
+    });
+    document.querySelectorAll('.click-row[data-focusgroup]').forEach(row => {
+      const match = layers.beams && row.dataset.plan === hwPlan && row.dataset.focusgroup === beamHighlightGroup;
+      row.classList.toggle('focused', match);
+    });
 
-    togBeamsEl.classList.toggle('on', layers.beams);
-    btnBeamMinEl.classList.toggle('active-min', layers.beams && isMin);
-    btnBeamFullEl.classList.toggle('active', layers.beams && !isMin);
     if (typeof syncPerformanceUI === 'function') syncPerformanceUI();
   }
 
-  function activateHwPlan(plan, enableBeams = null, switchTab = false) {
-    hwPlan = plan;
-    scenePlanMode = plan;
-    if (enableBeams !== null) layers.beams = enableBeams;
-    if (switchTab) {
-      document.querySelectorAll('.hw-tab-btn').forEach(b => b.classList.toggle('active', b.dataset.hwtab === plan));
-      document.querySelectorAll('.hw-pane').forEach(p => p.classList.toggle('active', p.id === 'hwPane-' + plan));
-    }
+  function toggleBeamsLayer() {
+    layers.beams = !layers.beams;
+    scenePlanMode = (layers.beams || hwDrawerEl.classList.contains('open')) ? hwPlan : 'full';
     syncHwPlanUI();
   }
 
-  btnBeamMinEl.addEventListener('click', () => {
-    if (layers.beams && hwPlan === 'min') {
-      layers.beams = false;
-      scenePlanMode = document.getElementById('hwDrawer').classList.contains('open') ? 'min' : 'full';
-      syncHwPlanUI();
-    } else {
-      activateHwPlan('min', true, true);
-    }
-  });
+  togBeamsEl.addEventListener('click', toggleBeamsLayer);
+  btnSheetBeams.addEventListener('click', toggleBeamsLayer);
 
-  btnBeamFullEl.addEventListener('click', () => {
-    if (layers.beams && hwPlan === 'full') {
-      layers.beams = false;
-      syncHwPlanUI();
-    } else {
-      activateHwPlan('full', true, true);
-    }
-  });
-
-  togBeamsEl.addEventListener('click', () => {
-    layers.beams = !layers.beams;
-    scenePlanMode = layers.beams ? hwPlan : (document.getElementById('hwDrawer').classList.contains('open') ? hwPlan : 'full');
-    syncHwPlanUI();
-  });
-
-  btnPlanMinEl.addEventListener('click', () => activateHwPlan('min', true, true));
-  btnPlanFullEl.addEventListener('click', () => activateHwPlan('full', true, true));
-
-  // Hardware & Cost Estimate Tab Drawer Toggle
-  const hwDrawerEl = document.getElementById('hwDrawer');
-  const btnQuickHw = document.getElementById('btnQuickHwTab');
-  const btnDockHw  = document.getElementById('btnDockHw');
   function setHwDrawer(open) {
     hwDrawerEl.classList.toggle('open', open);
-    btnQuickHw.classList.toggle('hw-open', open);
+    document.body.classList.toggle('hw-sheet-open', open);
     btnDockHw.classList.toggle('on', open);
-    if (open) {
-      scenePlanMode = hwPlan;
-    } else if (!layers.beams) {
-      scenePlanMode = 'full';
-    }
+    btnMastheadHw.classList.toggle('active', open);
+    scenePlanMode = (open || layers.beams) ? hwPlan : 'full';
     syncHwPlanUI();
   }
-  btnQuickHw.addEventListener('click', () => setHwDrawer(!hwDrawerEl.classList.contains('open')));
+
+  btnMastheadHw.addEventListener('click', () => setHwDrawer(!hwDrawerEl.classList.contains('open')));
   btnDockHw.addEventListener('click', () => setHwDrawer(!hwDrawerEl.classList.contains('open')));
   document.getElementById('btnCloseHw').addEventListener('click', () => setHwDrawer(false));
 
-  // Sub-tabs inside Hardware Drawer (also sync plan preview when clicking tab 01 or 02!)
   document.querySelectorAll('.hw-tab-btn').forEach(tb => {
     tb.addEventListener('click', () => {
       const target = tb.dataset.hwtab;
+      hwActiveTab = target;
       document.querySelectorAll('.hw-tab-btn').forEach(b => b.classList.toggle('active', b === tb));
       document.querySelectorAll('.hw-pane').forEach(p => p.classList.toggle('active', p.id === 'hwPane-' + target));
       if (target === 'min' || target === 'full') {
         hwPlan = target;
         scenePlanMode = target;
-        syncHwPlanUI();
+        beamHighlightGroup = 'all';
       }
+      syncHwPlanUI();
     });
   });
 
-  // 3D Beam Group Filter Chips & Table Row Click Highlighting
   function setBeamHighlight(group, rowPlan = null) {
     if (rowPlan === 'min' || rowPlan === 'full') {
       hwPlan = rowPlan;
       scenePlanMode = rowPlan;
     }
     if (hwPlan === 'min' && group === 'aScrim') return;
-    beamHighlightGroup = group;
-    layers.beams = true;
+    if (rowPlan && layers.beams && beamHighlightGroup === group) {
+      beamHighlightGroup = 'all';
+    } else {
+      beamHighlightGroup = group;
+      layers.beams = true;
+    }
     scenePlanMode = hwPlan;
     syncHwPlanUI();
   }
+
   document.querySelectorAll('.beam-chip').forEach(ch => {
     ch.addEventListener('click', () => setBeamHighlight(ch.dataset.bgroup));
   });
@@ -4172,15 +4151,15 @@
     let aIdx = 1;
     rowsZ.forEach(pz => {
       colsX.forEach(px => {
-        const id = 'PJ-A' + String(aIdx++).padStart(2, '0');
+        const id = 'A-' + String(aIdx++).padStart(2, '0');
         const hx = 4.85, hz = 3.80;
         const xMin = Math.max(-29.4, px - hx), xMax = Math.min(8.35, px + hx);
         const zMin = Math.max(-14.7, pz - hz), zMax = Math.min(14.7, pz + hz);
         const effZMin = (px < -20 && pz < -8) ? -10.05 : zMin;
         PROJECTOR_RIG_FULL.push({
-          id, group: 'aFloor', specTag: '4000lm UST · 600만',
+          id, group: 'aFloor', specTag: 'UST 4000lm',
           pos: [px, 5.26, pz],
-          col: [0.22, 0.74, 0.98], hex: '#38bdf8',
+          col: [0.86, 0.78, 0.62], hex: '#dfd0b8',
           quad: [[xMin, 0.05, effZMin], [xMax, 0.05, effZMin], [xMax, 0.05, zMax], [xMin, 0.05, zMax]]
         });
       });
@@ -4188,14 +4167,14 @@
 
     // 2) Group aScrim: 4× 4,000 ANSI UST Projectors throwing steeply onto 4-sided Central Hologram Scrim
     const scrimDefs = [
-      { id: 'PJ-S01', pos: [PIANO_X, 5.20, -5.15], quad: [[PIANO_X - 3.70, 5.08, -3.76], [PIANO_X + 3.70, 5.08, -3.76], [PIANO_X + 3.70, 0.40, -3.76], [PIANO_X - 3.70, 0.40, -3.76]] },
-      { id: 'PJ-S02', pos: [PIANO_X, 5.20,  5.15], quad: [[PIANO_X + 3.70, 5.08,  3.76], [PIANO_X - 3.70, 5.08,  3.76], [PIANO_X - 3.70, 0.40,  3.76], [PIANO_X + 3.70, 0.40,  3.76]] },
-      { id: 'PJ-S03', pos: [PIANO_X + 5.15, 5.20, 0.0], quad: [[PIANO_X + 3.76, 5.08, -3.70], [PIANO_X + 3.76, 5.08, 3.70], [PIANO_X + 3.76, 0.40, 3.70], [PIANO_X + 3.76, 0.40, -3.70]] },
-      { id: 'PJ-S04', pos: [PIANO_X - 5.15, 5.20, 0.0], quad: [[PIANO_X - 3.76, 5.08,  3.70], [PIANO_X - 3.76, 5.08, -3.70], [PIANO_X - 3.76, 0.40, -3.70], [PIANO_X - 3.76, 0.40, 3.70]] }
+      { id: 'S-01', pos: [PIANO_X, 5.20, -5.15], quad: [[PIANO_X - 3.70, 5.08, -3.76], [PIANO_X + 3.70, 5.08, -3.76], [PIANO_X + 3.70, 0.40, -3.76], [PIANO_X - 3.70, 0.40, -3.76]] },
+      { id: 'S-02', pos: [PIANO_X, 5.20,  5.15], quad: [[PIANO_X + 3.70, 5.08,  3.76], [PIANO_X - 3.70, 5.08,  3.76], [PIANO_X - 3.70, 0.40,  3.76], [PIANO_X + 3.70, 0.40,  3.76]] },
+      { id: 'S-03', pos: [PIANO_X + 5.15, 5.20, 0.0], quad: [[PIANO_X + 3.76, 5.08, -3.70], [PIANO_X + 3.76, 5.08, 3.70], [PIANO_X + 3.76, 0.40, 3.70], [PIANO_X + 3.76, 0.40, -3.70]] },
+      { id: 'S-04', pos: [PIANO_X - 5.15, 5.20, 0.0], quad: [[PIANO_X - 3.76, 5.08,  3.70], [PIANO_X - 3.76, 5.08, -3.70], [PIANO_X - 3.76, 0.40, -3.70], [PIANO_X - 3.76, 0.40, 3.70]] }
     ];
     scrimDefs.forEach(sd => PROJECTOR_RIG_FULL.push({
-      ...sd, group: 'aScrim', specTag: '4000lm UST · 600만',
-      col: [0.75, 0.52, 0.99], hex: '#c084fc'
+      ...sd, group: 'aScrim', specTag: 'UST 4000lm',
+      col: [0.76, 0.83, 0.90], hex: '#c2d4e6'
     }));
 
     // 3) Group cFloor: 4× 4,000 ANSI UST Projectors (2×2 ceiling grid for Zone C Interactive Fluid Floor)
@@ -4203,9 +4182,9 @@
     [-11.1, -3.8].forEach(pz => {
       [14.1, 24.3].forEach(px => {
         PROJECTOR_RIG_FULL.push({
-          id: 'PJ-CF' + (cfIdx++), group: 'cFloor', specTag: '4000lm UST · 600만',
+          id: 'C-F' + (cfIdx++), group: 'cFloor', specTag: 'UST 4000lm',
           pos: [px, 5.24, pz],
-          col: [0.98, 0.75, 0.15], hex: '#fbbf24',
+          col: [0.88, 0.72, 0.46], hex: '#e5b96e',
           quad: [[px - 5.1, 0.05, pz - 3.65], [px + 5.1, 0.05, pz - 3.65], [px + 5.1, 0.05, pz + 3.55], [px - 5.1, 0.05, pz + 3.55]]
         });
       });
@@ -4213,54 +4192,54 @@
 
     // 4) Group cWall: 4× 4,000 ANSI Ultra-Short-Throw Wall Projectors (1.35m standoff = shadow-free!)
     const cwDefs = [
-      { id: 'PJ-CW1', pos: [14.1, 5.18, -13.55], quad: [[8.98, 5.42, -14.91], [19.25, 5.42, -14.91], [19.25, 0.12, -14.91], [8.98, 0.12, -14.91]] },
-      { id: 'PJ-CW2', pos: [24.3, 5.18, -13.55], quad: [[19.25, 5.42, -14.91], [29.55, 5.42, -14.91], [29.55, 0.12, -14.91], [19.25, 0.12, -14.91]] },
-      { id: 'PJ-CW3', pos: [10.25, 5.18, -11.90], quad: [[8.94, 5.38, -8.85], [8.94, 5.38, -14.88], [8.94, 0.12, -14.88], [8.94, 0.12, -8.85]] },
-      { id: 'PJ-CW4', pos: [13.20, 5.18, -1.55],  quad: [[17.35, 5.28, -0.24], [8.98, 5.28, -0.24], [8.98, 0.12, -0.24], [17.35, 0.12, -0.24]] }
+      { id: 'C-W1', pos: [14.1, 5.18, -13.55], quad: [[8.98, 5.42, -14.91], [19.25, 5.42, -14.91], [19.25, 0.12, -14.91], [8.98, 0.12, -14.91]] },
+      { id: 'C-W2', pos: [24.3, 5.18, -13.55], quad: [[19.25, 5.42, -14.91], [29.55, 5.42, -14.91], [29.55, 0.12, -14.91], [19.25, 0.12, -14.91]] },
+      { id: 'C-W3', pos: [10.25, 5.18, -11.90], quad: [[8.94, 5.38, -8.85], [8.94, 5.38, -14.88], [8.94, 0.12, -14.88], [8.94, 0.12, -8.85]] },
+      { id: 'C-W4', pos: [13.20, 5.18, -1.55],  quad: [[17.35, 5.28, -0.24], [8.98, 5.28, -0.24], [8.98, 0.12, -0.24], [17.35, 0.12, -0.24]] }
     ];
     cwDefs.forEach(cd => PROJECTOR_RIG_FULL.push({
-      ...cd, group: 'cWall', specTag: '4000lm UST · 600만',
-      col: [0.20, 0.83, 0.60], hex: '#34d399'
+      ...cd, group: 'cWall', specTag: 'UST 4000lm',
+      col: [0.78, 0.80, 0.84], hex: '#cbd2dc'
     }));
   }
 
   const LIDAR_RIG_FULL = [
-    { id: 'LiDAR-01', pos: [14.1, 5.30, -14.25] },
-    { id: 'LiDAR-02', pos: [24.3, 5.30, -14.25] },
-    { id: 'LiDAR-03', pos: [19.2, 5.30, -7.40] },
-    { id: 'LiDAR-04', pos: [19.2, 5.30, -1.20] },
-    { id: 'LiDAR-05', pos: [PIANO_X + 7.8, 5.30, -5.0] },
-    { id: 'LiDAR-06', pos: [PIANO_X - 7.8, 5.30,  5.0] }
+    { id: 'SN-01', pos: [14.1, 5.30, -14.25] },
+    { id: 'SN-02', pos: [24.3, 5.30, -14.25] },
+    { id: 'SN-03', pos: [19.2, 5.30, -7.40] },
+    { id: 'SN-04', pos: [19.2, 5.30, -1.20] },
+    { id: 'SN-05', pos: [PIANO_X + 7.8, 5.30, -5.0] },
+    { id: 'SN-06', pos: [PIANO_X - 7.8, 5.30,  5.0] }
   ];
 
   // MINIMUM-COST PRACTICAL RIG (8× Short-Throw 4,200lm Laser @ 360만원 [≤400만] + 2× Zone C Sensors!)
   const PROJECTOR_RIG_MIN = [
     // Zone A: 4× ST Projectors (2×2 quadrant blend filling ONLY the Ø 17.2m Central Promenade Circle, NO Scrim!)
-    { id: 'PJ-M01', group: 'aFloor', specTag: '단초점 4200lm · 360만', pos: [PIANO_X - 4.1, 5.36, -4.1], col: [0.22, 0.74, 0.98], hex: '#38bdf8',
+    { id: 'A-01', group: 'aFloor', specTag: 'ST 4200lm', pos: [PIANO_X - 4.1, 5.36, -4.1], col: [0.86, 0.78, 0.62], hex: '#dfd0b8',
       quad: [[PIANO_X - 8.6, 0.05, -8.6], [PIANO_X + 0.6, 0.05, -8.6], [PIANO_X + 0.6, 0.05, 0.6], [PIANO_X - 8.6, 0.05, 0.6]] },
-    { id: 'PJ-M02', group: 'aFloor', specTag: '단초점 4200lm · 360만', pos: [PIANO_X + 4.1, 5.36, -4.1], col: [0.22, 0.74, 0.98], hex: '#38bdf8',
+    { id: 'A-02', group: 'aFloor', specTag: 'ST 4200lm', pos: [PIANO_X + 4.1, 5.36, -4.1], col: [0.86, 0.78, 0.62], hex: '#dfd0b8',
       quad: [[PIANO_X - 0.6, 0.05, -8.6], [PIANO_X + 8.6, 0.05, -8.6], [PIANO_X + 8.6, 0.05, 0.6], [PIANO_X - 0.6, 0.05, 0.6]] },
-    { id: 'PJ-M03', group: 'aFloor', specTag: '단초점 4200lm · 360만', pos: [PIANO_X - 4.1, 5.36,  4.1], col: [0.22, 0.74, 0.98], hex: '#38bdf8',
+    { id: 'A-03', group: 'aFloor', specTag: 'ST 4200lm', pos: [PIANO_X - 4.1, 5.36,  4.1], col: [0.86, 0.78, 0.62], hex: '#dfd0b8',
       quad: [[PIANO_X - 8.6, 0.05, -0.6], [PIANO_X + 0.6, 0.05, -0.6], [PIANO_X + 0.6, 0.05, 8.6], [PIANO_X - 8.6, 0.05, 8.6]] },
-    { id: 'PJ-M04', group: 'aFloor', specTag: '단초점 4200lm · 360만', pos: [PIANO_X + 4.1, 5.36,  4.1], col: [0.22, 0.74, 0.98], hex: '#38bdf8',
+    { id: 'A-04', group: 'aFloor', specTag: 'ST 4200lm', pos: [PIANO_X + 4.1, 5.36,  4.1], col: [0.86, 0.78, 0.62], hex: '#dfd0b8',
       quad: [[PIANO_X - 0.6, 0.05, -0.6], [PIANO_X + 8.6, 0.05, -0.6], [PIANO_X + 8.6, 0.05, 8.6], [PIANO_X - 0.6, 0.05, 8.6]] },
 
     // Zone C Floor: 2× ST Projectors (1×2 longitudinal blend for interactive fluid floor)
-    { id: 'PJ-MC1', group: 'cFloor', specTag: '단초점 4200lm · 360만', pos: [14.6, 5.34, -7.6], col: [0.98, 0.75, 0.15], hex: '#fbbf24',
+    { id: 'C-F1', group: 'cFloor', specTag: 'ST 4200lm', pos: [14.6, 5.34, -7.6], col: [0.88, 0.72, 0.46], hex: '#e5b96e',
       quad: [[9.3, 0.05, -14.6], [19.8, 0.05, -14.6], [19.8, 0.05, -1.0], [9.3, 0.05, -1.0]] },
-    { id: 'PJ-MC2', group: 'cFloor', specTag: '단초점 4200lm · 360만', pos: [23.9, 5.34, -7.6], col: [0.98, 0.75, 0.15], hex: '#fbbf24',
+    { id: 'C-F2', group: 'cFloor', specTag: 'ST 4200lm', pos: [23.9, 5.34, -7.6], col: [0.88, 0.72, 0.46], hex: '#e5b96e',
       quad: [[18.6, 0.05, -14.6], [29.3, 0.05, -14.6], [29.3, 0.05, -1.0], [18.6, 0.05, -1.0]] },
 
     // Zone C Interaction Wall ONLY: 2× ST Projectors (TR 0.46:1 @ 4.6m standoff -> main Z = -14.91m silhouette wall!)
-    { id: 'PJ-MW1', group: 'cWall', specTag: '단초점 4200lm · 360만', pos: [14.5, 5.22, -10.3], col: [0.20, 0.83, 0.60], hex: '#34d399',
+    { id: 'C-W1', group: 'cWall', specTag: 'ST 4200lm', pos: [14.5, 5.22, -10.3], col: [0.78, 0.80, 0.84], hex: '#cbd2dc',
       quad: [[9.1, 5.38, -14.91], [19.7, 5.38, -14.91], [19.7, 0.12, -14.91], [9.1, 0.12, -14.91]] },
-    { id: 'PJ-MW2', group: 'cWall', specTag: '단초점 4200lm · 360만', pos: [23.9, 5.22, -10.3], col: [0.20, 0.83, 0.60], hex: '#34d399',
+    { id: 'C-W2', group: 'cWall', specTag: 'ST 4200lm', pos: [23.9, 5.22, -10.3], col: [0.78, 0.80, 0.84], hex: '#cbd2dc',
       quad: [[18.7, 5.38, -14.91], [29.5, 5.38, -14.91], [29.5, 0.12, -14.91], [18.7, 0.12, -14.91]] }
   ];
 
   const LIDAR_RIG_MIN = [
-    { id: 'Sensor-C1', pos: [15.2, 5.30, -10.0] },
-    { id: 'Sensor-C2', pos: [23.2, 5.30, -10.0] }
+    { id: 'SN-C1', pos: [15.2, 5.30, -10.0] },
+    { id: 'SN-C2', pos: [23.2, 5.30, -10.0] }
   ];
 
   function buildProjectorRigMeshes(rigList, sensorList) {
@@ -4271,29 +4250,29 @@
       cFloor: new MeshBuilder(),
       cWall:  new MeshBuilder()
     };
-    const bodySideCol = [0.20, 0.23, 0.29, 1], bodyTopCol = [0.42, 0.47, 0.56, 1], mountCol = [0.14, 0.16, 0.20, 1];
+    const bodySideCol = [0.16, 0.17, 0.20, 1], bodyTopCol = [0.30, 0.32, 0.36, 1], mountCol = [0.12, 0.13, 0.16, 1];
     rigList.forEach(pj => {
       const [px, py, pz] = pj.pos;
       const [cr, cg, cb] = pj.col;
-      bBodies.addLimb([px, py + 0.08, pz], [px, 5.46, pz], 0.035, 0.035, 6, mountCol);
-      bBodies.addBox(px - 0.34, py - 0.11, pz - 0.25, px + 0.34, py + 0.11, pz + 0.25, bodySideCol, 0.5, bodyTopCol);
-      bBodies.addBox(px - 0.17, py - 0.16, pz - 0.14, px + 0.17, py - 0.10, pz + 0.14, [cr, cg, cb, 1]);
+      bBodies.addLimb([px, py + 0.08, pz], [px, 5.46, pz], 0.030, 0.030, 6, mountCol);
+      bBodies.addBox(px - 0.32, py - 0.10, pz - 0.23, px + 0.32, py + 0.10, pz + 0.23, bodySideCol, 0.5, bodyTopCol);
+      bBodies.addBox(px - 0.14, py - 0.14, pz - 0.11, px + 0.14, py - 0.10, pz + 0.11, [0.58, 0.55, 0.48, 1]);
 
       const mb = coneBuilders[pj.group];
-      const apex = [px, py - 0.14, pz];
+      const apex = [px, py - 0.13, pz];
       const q = pj.quad;
       for (let i = 0; i < 4; i++) {
         const cA = q[i], cB = q[(i + 1) % 4];
-        const v0 = mb.addVertex(apex[0], apex[1], apex[2], 0, 1, 0, 0.5, 1, cr, cg, cb, 0.17);
-        const v1 = mb.addVertex(cA[0], cA[1], cA[2], 0, 1, 0, 0, 0, cr, cg, cb, 0.026);
-        const v2 = mb.addVertex(cB[0], cB[1], cB[2], 0, 1, 0, 1, 0, cr, cg, cb, 0.026);
+        const v0 = mb.addVertex(apex[0], apex[1], apex[2], 0, 1, 0, 0.5, 1, cr, cg, cb, 0.115);
+        const v1 = mb.addVertex(cA[0], cA[1], cA[2], 0, 1, 0, 0, 0, cr, cg, cb, 0.016);
+        const v2 = mb.addVertex(cB[0], cB[1], cB[2], 0, 1, 0, 1, 0, cr, cg, cb, 0.016);
         mb.idx.push(v0, v1, v2, v0, v2, v1);
       }
     });
     sensorList.forEach(sn => {
       const [sx, sy, sz] = sn.pos;
-      bBodies.addLimb([sx, sy, sz], [sx, 5.46, sz], 0.025, 0.025, 6, mountCol);
-      bBodies.addSphere(sx, sy - 0.06, sz, 0.11, 6, 8, [0.15, 0.92, 0.82, 1]);
+      bBodies.addLimb([sx, sy, sz], [sx, 5.46, sz], 0.022, 0.022, 6, mountCol);
+      bBodies.addSphere(sx, sy - 0.06, sz, 0.09, 6, 8, [0.56, 0.58, 0.62, 1]);
     });
     return {
       rig: rigList,
@@ -4876,11 +4855,11 @@
     ctx2d.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx2d.clearRect(0, 0, cw, ch);
 
-    // Spatial Beam Projector Coverage Grids & Unit ID Tags when [빔세팅] is ON!
+    // Spatial Beam Projector Coverage Grids & Unit ID Tags when [투사망] is ON!
     if (layers.beams && roofAnim < 0.65 && !document.body.classList.contains('hud-minimal')) {
       ctx2d.save();
 
-      // In Minimum Plan, highlight the Ø 17.2m (R = 8.6m) Central Circular Floor Projection Aperture!
+      // In Plan A (Minimum), outline the Ø 17.2m (R = 8.6m) Central Circular Floor Projection Aperture in calm champagne hairline
       if (hwPlan === 'min' && (beamHighlightGroup === 'all' || beamHighlightGroup === 'aFloor')) {
         const circPts = [];
         for (let s = 0; s <= 64; s++) {
@@ -4889,10 +4868,9 @@
           if (p) circPts.push(p);
         }
         if (circPts.length > 20) {
-          ctx2d.strokeStyle = '#38bdf8';
-          ctx2d.globalAlpha = 0.72;
-          ctx2d.lineWidth = 1.8;
-          ctx2d.setLineDash([7, 5]);
+          ctx2d.strokeStyle = 'rgba(229, 185, 110, 0.56)';
+          ctx2d.lineWidth = 1.15;
+          ctx2d.setLineDash([5, 5]);
           ctx2d.beginPath();
           circPts.forEach((p, i) => i === 0 ? ctx2d.moveTo(p.x, p.y) : ctx2d.lineTo(p.x, p.y));
           ctx2d.stroke();
@@ -4904,13 +4882,13 @@
         const isFocus = beamHighlightGroup === 'all' || beamHighlightGroup === pj.group;
         if (!isFocus && beamHighlightGroup !== 'all') return;
 
-        // Projected coverage boundary wireframe
+        // Projected coverage boundary wireframe (subtle architectural drafting hairline)
         const q2d = pj.quad.map(pt => projectToScreen(vpMat, pt[0], pt[1], pt[2], cw, ch));
         if (q2d.every(Boolean)) {
           ctx2d.strokeStyle = pj.hex;
-          ctx2d.globalAlpha = beamHighlightGroup === 'all' ? (hwPlan === 'min' ? 0.36 : 0.24) : 0.58;
-          ctx2d.lineWidth = beamHighlightGroup === 'all' ? 1.0 : 1.5;
-          ctx2d.setLineDash([4, 4]);
+          ctx2d.globalAlpha = beamHighlightGroup === 'all' ? (hwPlan === 'min' ? 0.28 : 0.18) : 0.48;
+          ctx2d.lineWidth = 1.0;
+          ctx2d.setLineDash([3, 4]);
           ctx2d.beginPath();
           q2d.forEach((p, i) => i === 0 ? ctx2d.moveTo(p.x, p.y) : ctx2d.lineTo(p.x, p.y));
           ctx2d.closePath();
@@ -4918,42 +4896,45 @@
           ctx2d.setLineDash([]);
         }
 
-        // In 8-unit Minimum Plan, show EVERY projector badge cleanly; in 28-unit Full Plan, thin out in 'all' mode
-        const showBadge = hwPlan === 'min' || beamHighlightGroup !== 'all' || (pj.group === 'aFloor' ? idx % 3 === 0 : idx % 2 === 0);
-        const pScreen = projectToScreen(vpMat, pj.pos[0], pj.pos[1] + 0.35, pj.pos[2], cw, ch);
+        // Architectural fixture index tag
+        const showBadge = hwPlan === 'min' || beamHighlightGroup !== 'all' || (pj.group === 'aFloor' ? idx % 4 === 0 : idx % 2 === 0);
+        const pScreen = projectToScreen(vpMat, pj.pos[0], pj.pos[1] + 0.34, pj.pos[2], cw, ch);
         if (showBadge && pScreen) {
-          ctx2d.globalAlpha = 0.94;
-          ctx2d.font = '600 9.2px "JetBrains Mono", Consolas, monospace';
-          const txt = (beamHighlightGroup === 'all' && hwPlan === 'full') ? pj.id : `${pj.id} · ${pj.specTag}`;
-          const tw = ctx2d.measureText(txt).width + 10;
+          ctx2d.globalAlpha = 0.92;
+          ctx2d.font = '500 9.2px "JetBrains Mono", Consolas, monospace';
+          const txt = beamHighlightGroup === 'all' ? pj.id : `${pj.id} · ${pj.specTag}`;
+          const tw = Math.ceil(ctx2d.measureText(txt).width) + 14;
           const bx = Math.round(pScreen.x - tw * 0.5), by = Math.round(pScreen.y - 8);
-          ctx2d.fillStyle = 'rgba(6, 8, 14, 0.88)';
+          ctx2d.fillStyle = 'rgba(8, 9, 13, 0.86)';
           ctx2d.fillRect(bx, by, tw, 15);
-          ctx2d.strokeStyle = pj.hex;
+          ctx2d.strokeStyle = 'rgba(236, 226, 208, 0.22)';
           ctx2d.lineWidth = 1;
           ctx2d.strokeRect(bx + 0.5, by + 0.5, tw - 1, 14);
           ctx2d.fillStyle = pj.hex;
-          ctx2d.textAlign = 'center';
-          ctx2d.fillText(txt, pScreen.x, by + 10.5);
+          ctx2d.fillRect(bx, by, 2, 15);
+          ctx2d.fillStyle = '#f4f1ea';
+          ctx2d.textAlign = 'left';
+          ctx2d.fillText(txt, bx + 7, by + 10.5);
         }
       });
 
-      // Sensor badges
+      // Sensor drafting markers
       if (beamHighlightGroup === 'all' || beamHighlightGroup === 'cFloor' || beamHighlightGroup === 'cWall') {
         activeRigObj.sensors.forEach((sn, sIdx) => {
           if (hwPlan === 'full' && beamHighlightGroup === 'all' && sIdx % 2 === 1) return;
           const sp = projectToScreen(vpMat, sn.pos[0], sn.pos[1] + 0.28, sn.pos[2], cw, ch);
           if (sp) {
-            ctx2d.globalAlpha = 0.86;
-            ctx2d.font = '600 8.5px "JetBrains Mono", Consolas, monospace';
-            const tw = ctx2d.measureText(sn.id).width + 8;
-            ctx2d.fillStyle = 'rgba(5, 16, 18, 0.85)';
-            ctx2d.fillRect(sp.x - tw * 0.5, sp.y - 7, tw, 13);
-            ctx2d.strokeStyle = '#2dd4bf';
-            ctx2d.strokeRect(sp.x - tw * 0.5 + 0.5, sp.y - 6.5, tw - 1, 12);
-            ctx2d.fillStyle = '#5eead4';
+            ctx2d.globalAlpha = 0.82;
+            ctx2d.font = '500 8.5px "JetBrains Mono", Consolas, monospace';
+            const tw = Math.ceil(ctx2d.measureText(sn.id).width) + 10;
+            const bx = Math.round(sp.x - tw * 0.5), by = Math.round(sp.y - 7);
+            ctx2d.fillStyle = 'rgba(8, 9, 13, 0.82)';
+            ctx2d.fillRect(bx, by, tw, 13);
+            ctx2d.strokeStyle = 'rgba(236, 226, 208, 0.18)';
+            ctx2d.strokeRect(bx + 0.5, by + 0.5, tw - 1, 12);
+            ctx2d.fillStyle = 'rgba(228, 222, 210, 0.78)';
             ctx2d.textAlign = 'center';
-            ctx2d.fillText(sn.id, sp.x, sp.y + 2.5);
+            ctx2d.fillText(sn.id, sp.x, by + 9.5);
           }
         });
       }
