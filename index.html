@@ -1416,6 +1416,7 @@
   const EAVE_Y  = 5.60; // Industrial warehouse eave height
   const PEAK_Y  = 8.20; // Gable ridge height
   const PIANO_X = -10.4, PIANO_Z = 0.0; // Center sanctuary of expanded Zone A
+  const STAGE_H = 1.50, STAGE_R = 2.88; // 1.50m elevated circular concert stage (Ø 5.76m) in Zone A
 
   // Build 16 spectrum bars
   const specBarsWrap = document.getElementById('specBars');
@@ -2699,8 +2700,9 @@
     g.fillStyle = aura;
     g.fillRect(16, 40, 480, 450);
 
-    // Hologram Pianist + Concert Grand Piano Wireframe Projection ("연주자가 연주를 안할 때는 샤막에 홀로그램 연주 느낌으로 펼쳐지게!")
+    // Hologram Pianist + Concert Grand Piano Wireframe Projection (aligned to 1.5m elevated stage)
     g.save();
+    g.translate(0, -36);
     const breath = Math.sin(time * 0.75) * 2.4;
     g.shadowColor = 'rgba(154, 216, 245, 0.85)';
     g.shadowBlur = 11;
@@ -3489,14 +3491,15 @@
     g.globalCompositeOperation = 'lighter';
     g.drawImage(aPromenadeOverlay, 0, 0);
 
-    // Center Concert Grand Piano Overhead Pin-Spot Pool
-    const spotInt = stageState.perfOn ? 0.70 : 0.42;
-    const pinSpot = g.createRadialGradient(pcx, pcy, 3, pcx, pcy, 64 + high * 10);
-    pinSpot.addColorStop(0, `rgba(255, 248, 232, ${spotInt})`);
-    pinSpot.addColorStop(0.48, `rgba(214, 226, 248, ${(spotInt * 0.22).toFixed(2)})`);
-    pinSpot.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    g.fillStyle = pinSpot;
-    g.fillRect(pcx - 88, pcy - 88, 176, 176);
+    // Subtle Warm Cove Halo radiating around the base of the 1.5m Central Circular Stage (R = 2.88m -> 115px)
+    const stageCove = g.createRadialGradient(pcx, pcy, 102, pcx, pcy, 166 + bass * 12);
+    stageCove.addColorStop(0, 'rgba(255, 226, 162, 0.34)');
+    stageCove.addColorStop(0.45, 'rgba(229, 185, 110, 0.18)');
+    stageCove.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    g.fillStyle = stageCove;
+    g.beginPath();
+    g.arc(pcx, pcy, 180, 0, Math.PI * 2);
+    g.fill();
     g.globalCompositeOperation = 'source-over';
   }
 
@@ -3671,10 +3674,10 @@
     addPerson(x, z, yaw, opts = {}) {
       const {
         topCol = [0.22,0.25,0.32,1], botCol = [0.12,0.14,0.18,1], hairCol = [0.10,0.09,0.08,1],
-        pose = 'stand', stride = 0, armRaiseL = 0, armRaiseR = 0, playingPiano = false, scale = 1.0
+        pose = 'stand', stride = 0, armRaiseL = 0, armRaiseR = 0, playingPiano = false, scale = 1.0, baseY = 0.0
       } = opts;
       const skin = [0.93, 0.78, 0.67, 1], shoe = [0.09, 0.09, 0.11, 1], cs = Math.cos(yaw), sn = Math.sin(yaw);
-      const rot = (lx, ly, lz) => [x + (lx * cs + lz * sn) * scale, ly * scale, z + (-lx * sn + lz * cs) * scale];
+      const rot = (lx, ly, lz) => [x + (lx * cs + lz * sn) * scale, baseY + ly * scale, z + (-lx * sn + lz * cs) * scale];
 
       if (pose === 'floorSitLean' || pose === 'floorSitSide') {
         // Exact ref2 floor-sitting / reclining gallery visitor!
@@ -4037,15 +4040,65 @@
       addCurvedRingArc(bFurniture, PIANO_X, PIANO_Z, SEAT_RING_R + 0.32, SEAT_RING_R + 0.50, 0.43, 0.79, arc.a0, arc.a1, segs, [0.08, 0.09, 0.12, 1], [0.17, 0.17, 0.21, 1]);
     });
 
-    // Exact 1:1 Scale Steinway D Concert Grand Piano (2.74m long × 1.56m wide, keyboard at Z+ facing South-East)
-    const px = PIANO_X, pz = PIANO_Z, pianoBlk = [0.03, 0.03, 0.05, 1], soundboardGold = [0.76, 0.54, 0.18, 1];
+    // Smooth solid cylinder helper for the 1.50m Central Circular Concert Stage
+    function addSolidCylinder(mb, cx, cz, rad, y1, y2, segs, sideCol, topCol = null) {
+      const [sr, sg, sb, sa] = sideCol;
+      const [tr, tg, tb, ta] = topCol || sideCol;
+      const botRing = [], topRing = [], capRing = [];
+      const capCenter = mb.addVertex(cx, y2, cz, 0, 1, 0, 0.5, 0.5, tr, tg, tb, ta);
+      for (let s = 0; s <= segs; s++) {
+        const a = (s / segs) * Math.PI * 2;
+        const cs = Math.cos(a), sn = Math.sin(a);
+        const wx = cx + cs * rad, wz = cz + sn * rad;
+        botRing.push(mb.addVertex(wx, y1, wz, cs, 0, sn, s / segs, 0, sr, sg, sb, sa));
+        topRing.push(mb.addVertex(wx, y2, wz, cs, 0, sn, s / segs, 1, sr, sg, sb, sa));
+        capRing.push(mb.addVertex(wx, y2, wz, 0, 1, 0, 0.5 + cs * 0.5, 0.5 + sn * 0.5, tr, tg, tb, ta));
+      }
+      for (let s = 0; s < segs; s++) {
+        mb.idx.push(botRing[s], topRing[s], topRing[s + 1], botRing[s], topRing[s + 1], botRing[s + 1]);
+        mb.idx.push(capCenter, capRing[s + 1], capRing[s]);
+      }
+    }
+
+    // 1.50m High Central Circular Concert Stage (높이 1.50m · 직경 5.76m 원형 모놀리식 피아노 무대)
+    const px = PIANO_X, pz = PIANO_Z, sy = STAGE_H;
+    // 1) Recessed warm champagne-brass floor-level cove light plinth (Y = 0.00 .. 0.07m)
+    addSolidCylinder(bFurniture, px, pz, STAGE_R - 0.10, 0.0, 0.07, 56, [0.84, 0.66, 0.28, 1], [0.52, 0.40, 0.18, 1]);
+    // 2) Main monolithic dark obsidian cylindrical stage drum (Y = 0.07 .. 1.42m, R = 2.88m)
+    addSolidCylinder(bFurniture, px, pz, STAGE_R, 0.07, sy - 0.08, 64, [0.082, 0.088, 0.112, 1], [0.10, 0.11, 0.14, 1]);
+    // Subtle vertical architectural bronze/obsidian flutes around the stage drum (excluding backstage stair arc)
+    for (let f = 0; f < 28; f++) {
+      const fa = -Math.PI + (f / 28) * Math.PI * 2;
+      if (fa > -3.10 && fa < -1.88) continue; // Clear for curved backstage access stairs
+      const fx = px + Math.cos(fa) * (STAGE_R + 0.012), fz = pz + Math.sin(fa) * (STAGE_R + 0.012);
+      bFurniture.addLimb([fx, 0.08, fz], [fx, sy - 0.08, fz], 0.018, 0.018, 5, [0.15, 0.15, 0.19, 1]);
+    }
+    // 3) Warm champagne-brass architectural reveal band below stage lip (Y = 1.42 .. 1.455m)
+    addSolidCylinder(bFurniture, px, pz, STAGE_R + 0.014, sy - 0.08, sy - 0.045, 64, [0.82, 0.65, 0.28, 1], [0.82, 0.65, 0.28, 1]);
+    // 4) Top stage deck slab (Y = 1.455 .. 1.50m) + glossy acoustic reflector inlay disc beneath Steinway D
+    addSolidCylinder(bFurniture, px, pz, STAGE_R + 0.032, sy - 0.045, sy, 64, [0.072, 0.078, 0.098, 1], [0.125, 0.132, 0.162, 1]);
+    addSolidCylinder(bPianoGloss, px, pz, 2.16, sy, sy + 0.008, 56, [0.58, 0.46, 0.22, 1], [0.042, 0.046, 0.065, 1]);
+
+    // 5) 8-Step Curved Architectural Backstage Access Staircase (rising 0.00m -> 1.50m along WNW artist side)
+    const nSteps = 8, stairStart = -3.08, stairEnd = -1.92;
+    for (let st = 0; st < nSteps; st++) {
+      const a0 = stairStart + (stairEnd - stairStart) * (st / nSteps);
+      const a1 = stairStart + (stairEnd - stairStart) * ((st + 1) / nSteps);
+      const stepTop = ((st + 1) / nSteps) * sy;
+      addCurvedRingArc(bFurniture, px, pz, STAGE_R - 0.02, STAGE_R + 0.66, 0.0, stepTop, a0, a1 + 0.006, 5, [0.086, 0.092, 0.118, 1], [0.145, 0.152, 0.186, 1]);
+      // Subtle warm brass safety stair-nosing trim on each tread
+      addCurvedRingArc(bFurniture, px, pz, STAGE_R + 0.63, STAGE_R + 0.665, stepTop - 0.018, stepTop + 0.002, a0, a1, 5, [0.78, 0.62, 0.28, 1]);
+    }
+
+    // Exact 1:1 Scale Steinway D Concert Grand Piano elevated onto the 1.50m Stage (sy = 1.50m)
+    const pianoBlk = [0.03, 0.03, 0.05, 1], soundboardGold = [0.76, 0.54, 0.18, 1];
     [[px - 0.70, pz + 0.85], [px + 0.70, pz + 0.85], [px - 0.12, pz - 1.32]].forEach(([lx, lz]) => {
-      bPianoGloss.addLimb([lx, 0.04, lz], [lx, 0.72, lz], 0.048, 0.075, 8, pianoBlk);
-      bFurniture.addSphere(lx, 0.03, lz, 0.035, 5, 6, brass);
+      bPianoGloss.addLimb([lx, sy + 0.04, lz], [lx, sy + 0.72, lz], 0.048, 0.075, 8, pianoBlk);
+      bFurniture.addSphere(lx, sy + 0.03, lz, 0.035, 5, 6, brass);
     });
-    bFurniture.addBox(px - 0.13, 0.03, pz + 0.78, px + 0.13, 0.08, pz + 0.90, brass);
-    bPianoGloss.addLimb([px - 0.08, 0.08, pz + 0.82], [px - 0.08, 0.72, pz + 0.82], 0.024, 0.030, 6, pianoBlk);
-    bPianoGloss.addLimb([px + 0.08, 0.08, pz + 0.82], [px + 0.08, 0.72, pz + 0.82], 0.024, 0.030, 6, pianoBlk);
+    bFurniture.addBox(px - 0.13, sy + 0.03, pz + 0.78, px + 0.13, sy + 0.08, pz + 0.90, brass);
+    bPianoGloss.addLimb([px - 0.08, sy + 0.08, pz + 0.82], [px - 0.08, sy + 0.72, pz + 0.82], 0.024, 0.030, 6, pianoBlk);
+    bPianoGloss.addLimb([px + 0.08, sy + 0.08, pz + 0.82], [px + 0.08, sy + 0.72, pz + 0.82], 0.024, 0.030, 6, pianoBlk);
 
     const rimPts = [
       [px - 0.78, pz + 1.02], [px + 0.78, pz + 1.02], [px + 0.78, pz + 0.24],
@@ -4054,28 +4107,28 @@
     ];
     for (let i = 0; i < rimPts.length; i++) {
       const a = rimPts[i], b = rimPts[(i + 1) % rimPts.length];
-      bPianoGloss.addQuad([a[0], 0.72, a[1]], [b[0], 0.72, b[1]], [b[0], 1.04, b[1]], [a[0], 1.04, a[1]], [1, 1], pianoBlk);
+      bPianoGloss.addQuad([a[0], sy + 0.72, a[1]], [b[0], sy + 0.72, b[1]], [b[0], sy + 1.04, b[1]], [a[0], sy + 1.04, a[1]], [1, 1], pianoBlk);
     }
-    const sbCenter = bFurniture.addVertex(px - 0.04, 1.01, pz - 0.25, 0, 1, 0, 0.5, 0.5, ...soundboardGold);
-    const botCenter = bPianoGloss.addVertex(px, 0.72, pz - 0.25, 0, -1, 0, 0.5, 0.5, ...pianoBlk);
+    const sbCenter = bFurniture.addVertex(px - 0.04, sy + 1.01, pz - 0.25, 0, 1, 0, 0.5, 0.5, ...soundboardGold);
+    const botCenter = bPianoGloss.addVertex(px, sy + 0.72, pz - 0.25, 0, -1, 0, 0.5, 0.5, ...pianoBlk);
     const sbRing = [], botRing = [];
     rimPts.forEach(([rx, rz]) => {
-      sbRing.push(bFurniture.addVertex(px + (rx - px) * 0.92, 1.01, pz + (rz - pz) * 0.92, 0, 1, 0, 0.5, 0.5, ...soundboardGold));
-      botRing.push(bPianoGloss.addVertex(rx, 0.72, rz, 0, -1, 0, 0.5, 0.5, ...pianoBlk));
+      sbRing.push(bFurniture.addVertex(px + (rx - px) * 0.92, sy + 1.01, pz + (rz - pz) * 0.92, 0, 1, 0, 0.5, 0.5, ...soundboardGold));
+      botRing.push(bPianoGloss.addVertex(rx, sy + 0.72, rz, 0, -1, 0, 0.5, 0.5, ...pianoBlk));
     });
     for (let i = 0; i < rimPts.length; i++) {
       const ni = (i + 1) % rimPts.length;
       bFurniture.idx.push(sbCenter, sbRing[i], sbRing[ni]);
       bPianoGloss.idx.push(botCenter, botRing[ni], botRing[i]);
     }
-    bFurniture.addBox(px - 0.76, 0.74, pz + 1.02, px + 0.76, 0.93, pz + 1.28, pianoBlk);
-    bFurniture.addBox(px - 0.70, 0.93, pz + 1.03, px + 0.70, 0.97, pz + 1.25, [0.97, 0.97, 0.95, 1]);
-    const lidHinge1 = [px - 0.77, 1.05, pz + 0.90], lidHinge2 = [px - 0.77, 1.05, pz - 1.15];
-    const lidOpen1  = [px + 0.62, 1.92, pz + 0.70], lidOpen2  = [px + 0.30, 1.92, pz - 1.20];
+    bFurniture.addBox(px - 0.76, sy + 0.74, pz + 1.02, px + 0.76, sy + 0.93, pz + 1.28, pianoBlk);
+    bFurniture.addBox(px - 0.70, sy + 0.93, pz + 1.03, px + 0.70, sy + 0.97, pz + 1.25, [0.97, 0.97, 0.95, 1]);
+    const lidHinge1 = [px - 0.77, sy + 1.05, pz + 0.90], lidHinge2 = [px - 0.77, sy + 1.05, pz - 1.15];
+    const lidOpen1  = [px + 0.62, sy + 1.92, pz + 0.70], lidOpen2  = [px + 0.30, sy + 1.92, pz - 1.20];
     bPianoGloss.addQuad(lidHinge1, lidOpen1, lidOpen2, lidHinge2, [1, 1], [0.04, 0.04, 0.07, 1]);
     bPianoGloss.addQuad(lidHinge2, lidOpen2, lidOpen1, lidHinge1, [1, 1], [0.06, 0.06, 0.09, 1]);
-    bFurniture.addLimb([px + 0.48, 1.02, pz + 0.50], [px + 0.52, 1.84, pz + 0.54], 0.015, 0.013, 6, brass);
-    bFurniture.addBox(px - 0.40, 0.0, pz + 1.48, px + 0.40, 0.46, pz + 1.84, pianoBlk);
+    bFurniture.addLimb([px + 0.48, sy + 1.02, pz + 0.50], [px + 0.52, sy + 1.84, pz + 0.54], 0.015, 0.013, 6, brass);
+    bFurniture.addBox(px - 0.40, sy, pz + 1.48, px + 0.40, sy + 0.46, pz + 1.84, pianoBlk);
   }
   const meshFurniture = bFurniture.toVAO(), meshPianoGloss = bPianoGloss.toVAO();
   const meshXBannerPosters = bXBannerPosters.toVAO(), meshPhotoZoneWall = bPhotoZoneWall.toVAO(), meshServerRackFronts = bServerRackFronts.toVAO();
@@ -4111,15 +4164,15 @@
     { center: [PIANO_X - 3.75, 2.7, 0.0], vao: makeDoubleSidedScrimVAO([PIANO_X - 3.75, 0.35, 3.75], [PIANO_X - 3.75, 0.35, -3.75], [PIANO_X - 3.75, 5.12, -3.75], [PIANO_X - 3.75, 5.12, 3.75]) }
   ];
 
-  // Volumetric Spotlight Cone over Grand Piano + Subtle Cylindrical Haze Curtain above Circular Promenade Ring!
+  // Volumetric Spotlight Cone over Elevated 1.50m Grand Piano Stage + Subtle Cylindrical Haze Curtain above Circular Promenade Ring!
   const bSpotCone = new MeshBuilder();
   {
     for (let i = 0; i < 24; i++) {
-      const a0 = (i / 24) * Math.PI * 2, a1 = ((i + 1) / 24) * Math.PI * 2, rBot = 2.15, rTop = 0.14;
-      const v0 = bSpotCone.addVertex(PIANO_X + Math.cos(a0) * rBot, 0.02, Math.sin(a0) * rBot, 0,1,0, 0,0, 1.0, 0.96, 0.88, 0.008);
-      const v1 = bSpotCone.addVertex(PIANO_X + Math.cos(a1) * rBot, 0.02, Math.sin(a1) * rBot, 0,1,0, 1,0, 1.0, 0.96, 0.88, 0.008);
-      const v2 = bSpotCone.addVertex(PIANO_X + Math.cos(a1) * rTop, 5.32, Math.sin(a1) * rTop, 0,1,0, 1,1, 1.0, 0.98, 0.90, 0.19);
-      const v3 = bSpotCone.addVertex(PIANO_X + Math.cos(a0) * rTop, 5.32, Math.sin(a0) * rTop, 0,1,0, 0,1, 1.0, 0.98, 0.90, 0.19);
+      const a0 = (i / 24) * Math.PI * 2, a1 = ((i + 1) / 24) * Math.PI * 2, rBot = 2.24, rTop = 0.16;
+      const v0 = bSpotCone.addVertex(PIANO_X + Math.cos(a0) * rBot, STAGE_H + 0.015, Math.sin(a0) * rBot, 0,1,0, 0,0, 1.0, 0.96, 0.88, 0.012);
+      const v1 = bSpotCone.addVertex(PIANO_X + Math.cos(a1) * rBot, STAGE_H + 0.015, Math.sin(a1) * rBot, 0,1,0, 1,0, 1.0, 0.96, 0.88, 0.012);
+      const v2 = bSpotCone.addVertex(PIANO_X + Math.cos(a1) * rTop, 5.34, Math.sin(a1) * rTop, 0,1,0, 1,1, 1.0, 0.98, 0.90, 0.21);
+      const v3 = bSpotCone.addVertex(PIANO_X + Math.cos(a0) * rTop, 5.34, Math.sin(a0) * rTop, 0,1,0, 0,1, 1.0, 0.98, 0.90, 0.21);
       bSpotCone.idx.push(v0, v1, v2, v0, v2, v3);
     }
     // Delicate 360° Volumetric Light Veil hovering above the R = 7.80m Circular Promenade Ring
@@ -4328,10 +4381,10 @@
   function populatePeople(time) {
     peopleBuilder.clear();
 
-    // 1) LIVE PIANIST AT STEINWAY D — ONLY PRESENT WHEN 연주 ON!
+    // 1) LIVE PIANIST AT STEINWAY D ON 1.50m STAGE — ONLY PRESENT WHEN 연주 ON!
     if (stageState.perfOn) {
       peopleBuilder.addPerson(PIANO_X, 1.64, Math.PI, {
-        pose: 'seated', playingPiano: true,
+        pose: 'seated', playingPiano: true, baseY: STAGE_H,
         topCol: [0.10, 0.10, 0.13, 1], botCol: [0.07, 0.07, 0.09, 1],
         armRaiseL: stageState.pianistHandL,
         armRaiseR: stageState.pianistHandR
@@ -4474,10 +4527,10 @@
       specs: 'POTENTIAL-FLOW WAKE PHYSICS  |  POSE-SYNCED BLUR-TO-SHARP WALL'
     },
     a: {
-      idx: '02 / ZONE A — CIRCULAR SANCTUARY & FINE [점·선·면]',
-      head: '360° 원형 관람 회랑 · 원형 라운지 객석 & 미세 스케일 미디어아트',
-      body: '관람 동선이 피아노를 가로지르지 않고 성소 외곽 360° 원형 골든 라이트 회랑(반경 7.8m)을 따라 유려하게 선회하며, 그 바깥쪽 동심원(반경 10.2m)에 배치된 아치형 원형 라운지 객석에서 모든 관객이 중앙 피아노를 향해 둘러앉아 감상합니다. 350평 규모에 맞춰 초미세 입자·동심원 현·기하 단층이 고요한 호흡으로 공명합니다.',
-      specs: 'CIRCULAR RING : R 7.8M  |  CURVED AMPHITHEATER SEATING : R 10.2M'
+      idx: '02 / ZONE A — 1.5M CENTRAL STAGE & FINE [점·선·면]',
+      head: '높이 1.5m 중앙 원형 무대 · 360° 관람 회랑 & 원형 라운지 객석',
+      body: 'A존 중앙의 높이 1.5m 원형 피아노 무대(직경 5.76m) 위에 콘서트 그랜드피아노가 놓여 360° 모든 객석과 회랑에서 연주자의 타건이 선명하게 조망됩니다. 무대 외곽을 원형 골든 라이트 회랑(반경 7.8m)과 아치형 라운지 객석(반경 10.2m)이 동심원으로 감싸며 [점·선·면] 미디어아트가 공명합니다.',
+      specs: 'STAGE : H 1.50M (Ø 5.76M)  |  PROMENADE : R 7.8M  |  SEATING : R 10.2M'
     },
     backstage: {
       idx: '03 / TECHNICAL AV & PERFORMER BACKSTAGE',
@@ -4506,7 +4559,7 @@
 
   document.getElementById('btnViewMain').addEventListener('click', () => setActivePreset('btnViewMain', 'main', 0.65, 0.49, 88.0, [0.8, 0.9, 0.6]));
   document.getElementById('btnViewZoneBC').addEventListener('click', () => setActivePreset('btnViewZoneBC', 'bc', 0.74, 0.44, 42.0, [18.5, 1.5, -1.2]));
-  document.getElementById('btnViewZoneA').addEventListener('click', () => setActivePreset('btnViewZoneA', 'a', 0.56, 0.46, 48.0, [-10.4, 1.5, 0.4]));
+  document.getElementById('btnViewZoneA').addEventListener('click', () => setActivePreset('btnViewZoneA', 'a', 0.56, 0.46, 48.0, [-10.4, 2.2, 0.4]));
   document.getElementById('btnViewBackstage').addEventListener('click', () => setActivePreset('btnViewBackstage', 'backstage', 0.88, 0.44, 34.0, [-24.5, 1.8, -8.8]));
   document.getElementById('btnViewTop').addEventListener('click', () => setActivePreset('btnViewTop', 'top', 0.0, 1.53, 88.0, [0.0, 0.0, 0.0]));
 
@@ -4532,8 +4585,8 @@
   // 13. 12-SOURCE ARCHITECTURAL LIGHTING & HUD CALLOUTS
   // =========================================================================
   const lightPositions = new Float32Array([
-    PIANO_X, 5.25,   0.0, 10.5,                  // 0: Tight overhead pin-spot on Steinway D
-    PIANO_X, 3.20,   0.0, 21.5,                  // 1: Scrim hologram / movement-tinted Zone A fill
+    PIANO_X, 5.38,   0.0, 11.5,                  // 0: Tight overhead pin-spot on 1.50m-elevated Steinway D
+    PIANO_X, 3.65,   0.0, 21.5,                  // 1: Scrim hologram / movement-tinted Zone A fill
     PIANO_X + PROM_RING_R, 2.20, 0.0, 13.5,      // 2: Circular Golden Promenade East graze
     PIANO_X, 2.20, PROM_RING_R, 13.5,            // 3: Circular Golden Promenade South graze
     PIANO_X - PROM_RING_R, 2.20, 0.0, 13.5,      // 4: Circular Golden Promenade West graze
@@ -4990,8 +5043,8 @@
           ? `A · 실연 ON [${mvtName}]`
           : (isMinMode ? 'A · 상설 대기 (최소안 · 샤막 미사용)' : 'A · 상설 전시 (연주 OFF · 샤막 홀로그램)');
         const aSub = isMinMode
-          ? '최소안 : 샤막 미사용 · 중앙 원형(Ø17.2m) 바닥만 4대 집중 투사'
-          : (stageState.perfOn ? '샤막 OFF · 다크월 암막 & 4,000lm UST 바닥 맵핑 16대 가동' : '4면 샤막 UST 4대 홀로그램 투사 · 360° 원형 회랑');
+          ? 'H 1.5m 원형무대 · 샤막 미사용 · 중앙 원형(Ø17.2m) 4대 투사'
+          : (stageState.perfOn ? 'H 1.5m 중앙 원형무대 · 다크월 암막 & UST 바닥 16대 가동' : 'H 1.5m 원형무대 · 4면 샤막 홀로그램 투사');
         const cSub = isMinMode
           ? '최소안 : 유체 바닥(2대) + 실루엣 인터랙션월(2대) 핵심 구동'
           : '풀스펙 : UST 8대(바닥4·무그림자월4) + LiDAR 4식';
@@ -4999,7 +5052,7 @@
         drawEditorialPin(vpMat, 30.4, 5.2, 9.2,    'IN',  '아치형 주출입구', '영도 봉래나루로 측 진입', '#dfd0b8', cw, ch);
         drawEditorialPin(vpMat, 10.2, 5.4, 8.8,    '01',  'B · 시그니처 포토존 & 안내 (315㎡)', 'SPACE ONE Z 헤일로 · 암막 사운드락', '#e5b96e', cw, ch);
         drawEditorialPin(vpMat, 19.2, 6.2, -14.5,  '02',  'C · 다중자세 유체 바닥 & 실루엣 월', cSub, '#f3e3c3', cw, ch);
-        drawEditorialPin(vpMat, PIANO_X, 6.4, 0.0, '03',  aTitle, aSub, stageState.perfOn ? mvtHex : '#9ad8f5', cw, ch);
+        drawEditorialPin(vpMat, PIANO_X, 6.8, 0.0, '03',  aTitle, aSub, stageState.perfOn ? mvtHex : '#9ad8f5', cw, ch);
         drawEditorialPin(vpMat, -27.2, 4.8, -12.6, 'SR',  '서버렉 제어실', isMinMode ? '단일 8ch 워크스테이션 PC 통합 제어' : '출구 반대편 코너 AV 통합 제어', '#93c5fd', cw, ch);
         drawEditorialPin(vpMat, -29.8, 4.6, -8.1,  'ART', '피아니스트 전용문', '서버렉 좌측 백스테이지 방음문', '#e5b96e', cw, ch);
         drawEditorialPin(vpMat, -22.8, 4.8, 15.3,  'OUT', '관람객 퇴장구 (EXIT)', '원형 관람 회랑 분기 · 전면 좌하단', '#fda4af', cw, ch);
